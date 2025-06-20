@@ -2,7 +2,7 @@
 
 ## Javier Cha (University of Hong Kong)
 
-This repository contains the first public release of a critical digital edition of the *Andong Kwŏn Genealogy of 1476* (*Andong Kwŏn ssi Sŏnghwabo* 安東權氏成化譜), the oldest extant comprehensive genealogy in Korea. This source is particularly valuable for its inclusion of the Kwŏn clan's extended kin network, encompassing multiple generations of affinal descendants.
+This repository contains the first public release of a critical digital edition of the *Andong Kwŏn Genealogy of 1476* (*Andong Kwŏn ssi Sŏnghwabo* 安東權氏成化譜), the oldest extant comprehensive genealogy in Korea. This source is particularly valuable for documenting the Kwŏn clan's extended kin network, including multiple generations of affinal descendants.
 
 This release includes TSV-formatted node and edge tables, high-resolution facsimiles, and a suite of Jupyter notebooks for data preprocessing (e.g., Unicode normalization and LLM-assisted romanization of hanja names) and graph-based exploration (e.g., Neo4j import and inspection of the digitized content against the original).
 
