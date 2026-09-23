@@ -62,8 +62,8 @@ the GitHub repository and the published site are the same commit.
 
 What was done before the first deploy, kept for the record:
 
-1. **Size.** `dist/` is about 520 MB: 364 leaf derivatives (~250 KB), 364 full scans (~0.7 MB), 364
-   thumbnails, 363 notebook renders at full size (~0.4 MB) and the two tables. Workers
+1. **Size.** `dist/` is about 440 MB: 364 leaf derivatives (~250 KB), 364 full scans (~0.7 MB), 364
+   thumbnails, 363 Jupyter Notebook renders as SVG (~180 KB) and the two tables. Workers
    static assets allow 20,000 files and 25 MiB per file, so this fits, and the
    first upload takes a few minutes; later deploys upload only what changed.
    If the notebook renders are not wanted online, delete `web/notebook/`

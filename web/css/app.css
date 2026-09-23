@@ -164,7 +164,16 @@
 #page-graph { position: absolute; inset: 0; }
 .nb-stage { position: absolute; inset: 0; overflow: hidden; cursor: grab; background: var(--pn2); isolation: isolate; }
 .nb-stage:active { cursor: grabbing; }
-#nb-img { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; user-select: none; -webkit-user-drag: none; max-width: none; background: #fff; box-shadow: 0 0 0 1px var(--rule); }
+#nb-img { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; user-select: none; -webkit-user-drag: none; max-width: none; line-height: 0; }
+/* The Jupyter Notebook's render, inlined as SVG with its sheet removed: the
+   stage shows through, and the notebook's black, white and light blue become
+   the theme's ink, sheet and mineral blue, so the render reads in the dark too. */
+#nb-img svg { display: block; fill: var(--ink); }
+#nb-img svg * { stroke-linejoin: round; stroke-linecap: butt; }   /* matplotlib's own rule, scoped */
+#nb-img .nb-line { fill: none; stroke: var(--ink); }
+#nb-img .nb-ink { fill: var(--ink); stroke: var(--ink); }
+#nb-img .nb-box { fill: var(--pn2); stroke: var(--pn2); }
+#nb-img .nb-node { fill: var(--acc2); fill-opacity: 0.32; stroke: var(--acc2); stroke-opacity: 0.5; }
 #nb-img.loading { opacity: 0.35; }
 .page-canvas-wrap[data-view="notebook"] #page-graph, .page-canvas-wrap[data-view="notebook"] #page-legend,
 .page-canvas-wrap[data-view="notebook"] #pg-redraw, .page-canvas-wrap[data-view="notebook"] #pg-svg { visibility: hidden; }

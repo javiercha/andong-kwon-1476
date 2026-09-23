@@ -72,14 +72,12 @@
     document.querySelectorAll('.pane-switch button').forEach(function (b) {
       b.addEventListener('click', function () { setRightView(b.getAttribute('data-view')); });
     });
-    S.nbZoom = d3.zoom().scaleExtent([0.02, 4]).on('zoom', function (ev) {     // the render is 6000 px wide: fit on a phone is ~0.06
+    S.nbZoom = d3.zoom().scaleExtent([0.02, 6]).on('zoom', function (ev) {     // the render is 2880 units wide: fit on a phone is ~0.12
       $('nb-img').style.transform = 'translate(' + ev.transform.x + 'px,' + ev.transform.y + 'px) scale(' + ev.transform.k + ')';
     });
     d3.select('#nb-stage').call(S.nbZoom).on('dblclick.zoom', null);
     touchPolicy('#nb-stage');
     $('nb-stage').addEventListener('dblclick', fitNb);
-    $('nb-img').addEventListener('load', function () { S.nbW = this.naturalWidth; S.nbH = this.naturalHeight; this.classList.remove('loading'); fitNb(); });
-    $('nb-img').addEventListener('error', function () { this.classList.remove('loading'); });
     setRightView(S.rview, true);
     S.pc.on('click', function (n) { select(n.id, true); AK.Detail.show(n); })
         .on('expand', function (n) { AK.App.focusOn(n); })
@@ -204,11 +202,8 @@
     showImage();
     strip(p);
 
-    // the notebook render, and the drawing
-    var nb = $('nb-img');
-    nb.classList.add('loading');
-    nb.alt = 'The notebook rendering (June 2025) of ' + p.label;
-    nb.src = 'notebook/' + p.key + '.png';
+    // the Jupyter Notebook render, and the drawing
+    loadRender(p);
 
     S.sub = subgraphOf(p);
     var touched = new Set();
@@ -253,6 +248,28 @@
       b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false');
     });
     if (S.page && !silent) { if (S.rview === 'drawing') { S.pc.render(); S.pc.fit(); } else fitNb(); }
+  }
+  /* The Jupyter Notebook's render of the leaf, an SVG inlined so the theme
+     colours it (see app.css). A slower earlier fetch never overwrites a later
+     leaf: each load carries its serial. */
+  function loadRender(p) {
+    var host = $('nb-img');
+    host.classList.add('loading');
+    host.setAttribute('aria-label', 'The Jupyter Notebook render (June 2025) of ' + p.label);
+    var serial = (S.nbSerial = (S.nbSerial || 0) + 1);
+    fetch('notebook/' + p.key + '.svg').then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function (text) {
+        if (serial !== S.nbSerial) return;
+        host.innerHTML = text;
+        var svg = host.querySelector('svg');
+        if (!svg) throw new Error('no svg');
+        var vb = (svg.getAttribute('viewBox') || '0 0 2880 1080').split(/\s+/).map(Number);
+        S.nbW = vb[2]; S.nbH = vb[3];
+        svg.setAttribute('width', S.nbW); svg.setAttribute('height', S.nbH);
+        host.classList.remove('loading');
+        fitNb();
+      })
+      .catch(function () { if (serial === S.nbSerial) { host.innerHTML = ''; host.classList.remove('loading'); } });
   }
   function fitNb() {
     var st = $('nb-stage'), W = st.clientWidth, H = st.clientHeight;

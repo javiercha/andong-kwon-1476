@@ -27,7 +27,7 @@ andongkwon-1476/
     css/pages.css                 the back matter's sheet
     css/samhan-skin/              the samhan skin as a module: samhan.css, theme.js (pasted inline by assemble.py), VERSION
     facsimile/pages, thumbs, full/  derivatives (gitignored; scripts/build_images.py); full/ is the scan as it is, for deep zoom
-    notebook/                     the notebook's PNG renders, full size (gitignored)
+    notebook/                     the Jupyter Notebook's SVG renders, restyled for the theme (gitignored)
   scripts/                        assemble, build_images, vendor, build, deploy
   worker/, wrangler.toml          the Cloudflare route for andongkwon1476.samhan.ai (not deployed)
   test/                           node tests, the Playwright smoke test, its screenshots
