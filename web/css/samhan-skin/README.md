@@ -23,3 +23,9 @@ Class names are still the ones Relinkings coined (`.rl-ap`, `.rl-ap-n`,
 Adoption: the edition loads it from here. Sebo and Relinkings carry their own
 copies of the same file at `web/css/samhan.css` and `web/index.html` (theme);
 replacing them with this directory is the same vendoring step as the canvas.
+
+## 1.1.0 — 2026-09-23
+
+The stage tag (`.rl-stage`) is drawn with samhan.ai's torn-edge frame
+(`--stage-frame`, a border image declared per theme scope) instead of a hairline
+box with a half-pixel shadow, so BETA on a work reads as BETA on the index.
