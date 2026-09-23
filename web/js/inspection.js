@@ -76,6 +76,7 @@
       $('nb-img').style.transform = 'translate(' + ev.transform.x + 'px,' + ev.transform.y + 'px) scale(' + ev.transform.k + ')';
     });
     d3.select('#nb-stage').call(S.nbZoom).on('dblclick.zoom', null);
+    touchPolicy('#nb-stage');
     $('nb-stage').addEventListener('dblclick', fitNb);
     $('nb-img').addEventListener('load', function () { S.nbW = this.naturalWidth; S.nbH = this.naturalHeight; this.classList.remove('loading'); fitNb(); });
     $('nb-img').addEventListener('error', function () { this.classList.remove('loading'); });
@@ -116,6 +117,7 @@
       if (ev.transform.k > FULL_AT) deepZoom();
     });
     d3.select('#fac-stage').call(S.zoom).on('dblclick.zoom', null);
+    touchPolicy('#fac-stage');
     $('fac-stage').addEventListener('dblclick', function () { fitImage(); });
     $('fac-img').addEventListener('load', function () {
       this.classList.remove('loading');
@@ -265,6 +267,16 @@
     else if (ev.key === 'n') showTab('notes');
     else if (ev.key === 'p') showTab('people');
     else if (ev.key === 'r') showTab('relations');
+  }
+
+  /* On a touch screen d3-zoom writes touch-action: none on the stage, which
+     would trap a finger that is only trying to scroll past the sheet on a
+     phone. Below 900px, where the panes stack, a vertical drag is the page's;
+     a horizontal drag and a pinch are the stage's. */
+  function touchPolicy(sel) {
+    var apply = function () { d3.select(sel).style('touch-action', window.innerWidth <= 900 ? 'pan-y' : 'none'); };
+    apply();
+    window.addEventListener('resize', apply);
   }
 
   /* ─────────────────────────────────────────────────────────── the sheet */

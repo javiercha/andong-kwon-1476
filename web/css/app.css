@@ -268,8 +268,16 @@
   .ent-row .e-office { display: none; }
   .fo-search-wrap .text-input { width: 150px; }
   #page-legend { display: none; }
+  /* the sheet and the render on a touch screen: a vertical drag scrolls the
+     page, a horizontal drag pans, two fingers zoom (d3 takes the touches);
+     set as a style attribute too, in inspection.js, because d3-zoom writes
+     touch-action: none inline on touch devices */
+  #fac-stage, #nb-stage { touch-action: pan-y; }
+  .right-drawer { width: min(var(--drawer-width), 100vw); min-width: 0; }
 }
 @media (max-width: 600px) {
+  /* the record drawer never exceeds the screen; it overlays from the right */
+  .right-drawer { width: 100vw; min-width: 0; max-width: 100vw; }
   .ent-row { grid-template-columns: minmax(0, 1fr) auto; }
   .ent-row .e-roman { display: none; }
   .fac-cite { display: none; }
