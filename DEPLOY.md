@@ -42,10 +42,12 @@ reports per address per hour, every field capped, a honeypot for bots.
 The server computes the Content-Security-Policy from the inline blocks in
 `index.html` at start-up, so it must be restarted after reassembling.
 
-## Publishing at andongkwon1476.samhan.ai (not done yet)
+## Publishing at andongkwon1476.samhan.ai
 
-The edition is static, so it goes where Relinkings went: Cloudflare Workers
-static assets on a custom domain, no process on this machine, no tunnel.
+**Live since 23 September 2026** (Worker `andongkwon1476`, custom domain, D1
+`andongkwon1476-reports`, both secrets set). The edition is static, so it went
+where Relinkings went: Cloudflare Workers static assets on a custom domain, no
+process on this machine, no tunnel.
 
     ./scripts/deploy.sh      # tests → build dist/ → wrangler deploy → verify
 
@@ -54,7 +56,11 @@ static assets on a custom domain, no process on this machine, no tunnel.
 record in the samhan.ai zone on the first deploy. `wrangler` is authenticated
 on this machine as bigdatastudieslab@gmail.com (as for Relinkings).
 
-Before the first deploy:
+The sync is the deploy script: it refuses uncommitted changes, builds `dist/`
+from this working copy and uploads, so the local site (this tree on port 8160),
+the GitHub repository and the published site are the same commit.
+
+What was done before the first deploy, kept for the record:
 
 1. **Size.** `dist/` is about 140 MB: 364 leaf derivatives (~250 KB), 364
    thumbnails, 363 notebook renders (~150 KB) and the two tables. Workers
@@ -67,10 +73,9 @@ Before the first deploy:
    `https://www.googletagmanager.com` in `script-src` and `connect-src` in
    `server.py`'s `csp()`; the inline `gtag` bootstrap must then also be
    hashed, which the server does for every inline block it finds.
-3. **The imprint.** The masthead says `PREVIEW · TAILNET ONLY`; remove that
-   span. The index link carries `?to=A2` — give the edition its siglum in
-   samhan.ai's index (`~/projects/samhan-website/site/build.py`) so the lemma
-   transition lands.
+3. **The imprint.** The preview note is gone; the index link carries `?to=D1`,
+   the edition's siglum in samhan.ai's index, so the return half of the lemma
+   transition lands on its entry. The index links here with `?from=index`.
 4. **The views line.** The Worker answers `/api/views` from the KV namespace
    samhan.ai, Sebo and Relinkings share, under the domain's one key.
 5. **The reports.** The Worker carries the same report endpoint and admin page
