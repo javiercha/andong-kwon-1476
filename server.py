@@ -63,11 +63,13 @@ def csp(index_html):
     hashes = ' '.join(inline_script_hashes(index_html))
     return '; '.join([
         "default-src 'self'",
-        "script-src 'self' https://www.googletagmanager.com" + (' ' + hashes if hashes else ''),
+        # googletagmanager is Google Analytics; cloudflareinsights is the Web Analytics beacon Cloudflare
+        # injects into every page it serves for this zone, as it does for the sibling sites
+        "script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com" + (' ' + hashes if hashes else ''),
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src 'self' https://fonts.gstatic.com",
         "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com",
-        "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com",
+        "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://cloudflareinsights.com",
         "object-src 'none'",
         "base-uri 'none'",
         "form-action 'none'",

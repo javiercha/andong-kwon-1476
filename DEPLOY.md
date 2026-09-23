@@ -73,7 +73,9 @@ What was done before the first deploy, kept for the record:
    pages, bootstrapped from `js/analytics.js`. The application sends one
    page_view per route (each leaf, each person, the Graph tab), since it is
    hash-routed. `server.py`'s `csp()` admits googletagmanager in `script-src`
-   and the Analytics hosts in `connect-src` and `img-src`.
+   and the Analytics hosts in `connect-src` and `img-src`, and Cloudflare's own
+   Web Analytics beacon (`static.cloudflareinsights.com`), which the edge injects
+   into every page of the zone.
 3. **The imprint.** The preview note is gone; the index link carries `?to=D1`,
    the edition's siglum in samhan.ai's index, so the return half of the lemma
    transition lands on its entry. The index links here with `?from=index`.
