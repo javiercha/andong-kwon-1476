@@ -325,6 +325,8 @@
       }
     } finally { routing = false; }
     if (first && !location.hash) { /* leave the address clean on first load */ }
+    // one page_view per route — the application is hash-routed, so Analytics would otherwise see one page
+    if (typeof gtag === 'function') gtag('event', 'page_view', { page_location: location.href, page_title: document.title });
   }
   function goLeaf(vol, leaf, side, opts) {
     showView('inspection');

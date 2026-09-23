@@ -68,11 +68,12 @@ What was done before the first deploy, kept for the record:
    first upload takes a few minutes; later deploys upload only what changed.
    If the notebook renders are not wanted online, delete `web/notebook/`
    from the build and the layer option from the template.
-2. **Analytics.** The sibling sites carry the GA4 tag. If it is wanted here,
-   add the two tags to the template head and admit
-   `https://www.googletagmanager.com` in `script-src` and `connect-src` in
-   `server.py`'s `csp()`; the inline `gtag` bootstrap must then also be
-   hashed, which the server does for every inline block it finds.
+2. **Analytics.** Done: the GA4 tag of the property samhan.ai, Sebo and
+   Relinkings report to (G-95JRMG14B7) is in the application and the three
+   pages, bootstrapped from `js/analytics.js`. The application sends one
+   page_view per route (each leaf, each person, the Graph tab), since it is
+   hash-routed. `server.py`'s `csp()` admits googletagmanager in `script-src`
+   and the Analytics hosts in `connect-src` and `img-src`.
 3. **The imprint.** The preview note is gone; the index link carries `?to=D1`,
    the edition's siglum in samhan.ai's index, so the return half of the lemma
    transition lands on its entry. The index links here with `?from=index`.

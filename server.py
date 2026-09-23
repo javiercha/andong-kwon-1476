@@ -63,11 +63,11 @@ def csp(index_html):
     hashes = ' '.join(inline_script_hashes(index_html))
     return '; '.join([
         "default-src 'self'",
-        "script-src 'self'" + (' ' + hashes if hashes else ''),
+        "script-src 'self' https://www.googletagmanager.com" + (' ' + hashes if hashes else ''),
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src 'self' https://fonts.gstatic.com",
-        "img-src 'self' data: blob:",
-        "connect-src 'self'",
+        "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com",
+        "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com",
         "object-src 'none'",
         "base-uri 'none'",
         "form-action 'none'",

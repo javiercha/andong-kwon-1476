@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-spa>
 <head>
   <!-- samhan.ai's theme, inline and first: the sheet has to be light or dark
        before the first paint. css/samhan-skin/theme.js on disk is the canonical copy;
@@ -27,6 +27,11 @@
   <link rel="stylesheet" href="js/samhan-graph/samhan-graph-tools.css">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/pages.css">
+
+  <!-- Google Analytics 4, the property samhan.ai and its works report to; the
+       bootstrap is js/analytics.js so the Content-Security-Policy needs no hash. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-95JRMG14B7"></script>
+  <script src="js/analytics.js"></script>
 
   <!-- The arrival half of the lemma transition from samhan.ai's index; the
        same block Sebo and Relinkings carry. -->

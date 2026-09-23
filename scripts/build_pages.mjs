@@ -43,7 +43,8 @@ function page(title, body, description) {
 <meta name="color-scheme" content="light dark"><link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Public+Sans:ital,wght@0,300..600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+TC:wght@300;400;600&family=Noto+Serif+KR:wght@300;400&display=swap">
 <link rel="stylesheet" href="css/main.css"><link rel="stylesheet" href="css/samhan-skin/samhan.css"><link rel="stylesheet" href="css/pages.css">
-<script src="css/samhan-skin/theme.js"></script></head><body class="page">
+<script src="css/samhan-skin/theme.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-95JRMG14B7"></script><script src="js/analytics.js"></script></head><body class="page">
 <div class="samhan-imprint"><a class="samhan-imprint-home" href="https://samhan.ai/?to=D1"><svg class="mk" viewBox="0 0 64 48" width="30" height="22" aria-hidden="true"><path d="M4 36H60" stroke="currentColor" stroke-width="2.2" fill="none"/><rect x="7" y="12" width="8" height="24" fill="currentColor"/><rect x="20" y="12" width="8" height="24" fill="currentColor"/><rect x="33" y="12" width="8" height="24" fill="currentColor"/><path d="M45 36h8l4.6-15.6h-8z" fill="var(--mark-acc,var(--acc))"/></svg><span>samhan<span class="pt">.</span>ai</span></a><span class="samhan-imprint-sp"></span></div>
 <header class="top-bar page-bar"><div class="top-bar-left"><div class="brand-group"><h1 class="app-title"><a href="./">The Andong Kwŏn Genealogy of 1476</a> <span class="app-title-hj">安東權氏成化譜</span><span class="rl-stage">BETA</span></h1>
 <span class="rl-ap"><span class="rl-ap-n">V${VERSION}</span><span>TABLES ${TABLES}</span></span></div></div>
