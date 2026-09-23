@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Derive web-sized facsimile pages, thumbnails and notebook renders.
+"""Derive web-sized facsimile pages and thumbnails; copy the full scans and the notebook renders.
 
   python3 scripts/build_images.py            # only what is missing
   python3 scripts/build_images.py --force    # everything again
@@ -9,7 +9,7 @@ facsimile/jpg/songwabo_vol1_06a.jpg (2481x3509, ~0.7 MB)
   -> web/facsimile/thumbs/vol1_06a.jpg  long side 320 px,  JPEG q70   (~15 KB)
   -> web/facsimile/full/vol1_06a.jpg    the scan as it is, for deep zoom (~0.7 MB)
 inspection/png/vol1_06a.png (6000x2250)
-  -> web/notebook/vol1_06a.png          width 1800 px, palette PNG
+  -> web/notebook/vol1_06a.png          the notebook's render as it is (6000 px wide, ~0.4 MB)
 The originals are never touched. Derivatives are gitignored and rebuilt by this
 script; the site serves only the derivatives.
 """
@@ -43,7 +43,7 @@ for f in sorted(os.listdir(nb_dir)):
     if not m: continue
     key = m.group(1); src = os.path.join(nb_dir, f); dst = os.path.join(ROOT, 'web', 'notebook', key + '.png')
     if out_of_date(src, dst):
-        im = Image.open(src).convert('RGB'); w, h = im.size
-        im = im.resize((1800, round(h * 1800 / w)), Image.LANCZOS).quantize(colors=64, method=Image.Quantize.MEDIANCUT)
-        im.save(dst, 'PNG', optimize=True); n += 1
+        # the render is served at its full 6000 px: it is line art, 0.3–0.5 MB
+        # as the notebook wrote it, and a reduced copy was too soft to read
+        shutil.copyfile(src, dst); n += 1
 print('derived', n, 'files')

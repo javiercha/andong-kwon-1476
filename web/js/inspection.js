@@ -72,7 +72,7 @@
     document.querySelectorAll('.pane-switch button').forEach(function (b) {
       b.addEventListener('click', function () { setRightView(b.getAttribute('data-view')); });
     });
-    S.nbZoom = d3.zoom().scaleExtent([0.08, 8]).on('zoom', function (ev) {
+    S.nbZoom = d3.zoom().scaleExtent([0.02, 4]).on('zoom', function (ev) {     // the render is 6000 px wide: fit on a phone is ~0.06
       $('nb-img').style.transform = 'translate(' + ev.transform.x + 'px,' + ev.transform.y + 'px) scale(' + ev.transform.k + ')';
     });
     d3.select('#nb-stage').call(S.nbZoom).on('dblclick.zoom', null);
