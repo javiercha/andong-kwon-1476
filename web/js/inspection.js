@@ -202,7 +202,7 @@
     showImage();
     strip(p);
 
-    // the Jupyter Notebook render, and the drawing
+    // the matplotlib render, and the drawing
     loadRender(p);
 
     S.sub = subgraphOf(p);
@@ -249,13 +249,13 @@
     });
     if (S.page && !silent) { if (S.rview === 'drawing') { S.pc.render(); S.pc.fit(); } else fitNb(); }
   }
-  /* The Jupyter Notebook's render of the leaf, an SVG inlined so the theme
+  /* The matplotlib render of the leaf, an SVG inlined so the theme
      colours it (see app.css). A slower earlier fetch never overwrites a later
      leaf: each load carries its serial. */
   function loadRender(p) {
     var host = $('nb-img');
     host.classList.add('loading');
-    host.setAttribute('aria-label', 'The Jupyter Notebook render (June 2025) of ' + p.label);
+    host.setAttribute('aria-label', 'The matplotlib render (June 2025) of ' + p.label);
     var serial = (S.nbSerial = (S.nbSerial || 0) + 1);
     fetch('notebook/' + p.key + '.svg').then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (text) {

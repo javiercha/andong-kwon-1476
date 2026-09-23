@@ -165,15 +165,33 @@
 .nb-stage { position: absolute; inset: 0; overflow: hidden; cursor: grab; background: var(--pn2); isolation: isolate; }
 .nb-stage:active { cursor: grabbing; }
 #nb-img { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; user-select: none; -webkit-user-drag: none; max-width: none; line-height: 0; }
-/* The Jupyter Notebook's render, inlined as SVG with its sheet removed: the
-   stage shows through, and the notebook's black, white and light blue become
-   the theme's ink, sheet and mineral blue, so the render reads in the dark too. */
-#nb-img svg { display: block; fill: var(--ink); }
+/* The matplotlib render, inlined as SVG with its sheet removed: the stage
+   shows through, and the notebook's black, white and light blue become
+   tokens set for each theme's background — dark ink and a full light blue on
+   the pale sheet; a softened light line and a deeper blue on the dark one, so
+   neither glares. Lines keep a constant width on screen whatever the zoom
+   (vector-effect), because the notebook drew them for a 6000-pixel figure. */
+:root {
+  --nb-line: #2A2720;               /* ink, a step softer than the text */
+  --nb-glyph: #17150F;
+  --nb-node: #9CC6DE;               /* the notebook's lightblue, a shade deeper */
+  --nb-node-edge: #5E93B8;
+  --nb-node-fill-opacity: .9;
+}
+html[data-theme="dark"] {
+  --nb-line: #C9C4B4; --nb-glyph: #EDEAE0; --nb-node: #4F7FA6; --nb-node-edge: #8FB4D6; --nb-node-fill-opacity: .75;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --nb-line: #C9C4B4; --nb-glyph: #EDEAE0; --nb-node: #4F7FA6; --nb-node-edge: #8FB4D6; --nb-node-fill-opacity: .75;
+  }
+}
+#nb-img svg { display: block; fill: var(--nb-glyph); }
 #nb-img svg * { stroke-linejoin: round; stroke-linecap: butt; }   /* matplotlib's own rule, scoped */
-#nb-img .nb-line { fill: none; stroke: var(--ink); }
-#nb-img .nb-ink { fill: var(--ink); stroke: var(--ink); }
+#nb-img .nb-line { fill: none; stroke: var(--nb-line); vector-effect: non-scaling-stroke; stroke-width: 1.4px; }
+#nb-img .nb-ink { fill: var(--nb-line); stroke: var(--nb-line); }
 #nb-img .nb-box { fill: var(--pn2); stroke: var(--pn2); }
-#nb-img .nb-node { fill: var(--acc2); fill-opacity: 0.32; stroke: var(--acc2); stroke-opacity: 0.5; }
+#nb-img .nb-node { fill: var(--nb-node); fill-opacity: var(--nb-node-fill-opacity); stroke: var(--nb-node-edge); stroke-opacity: .9; stroke-width: 1.5; }
 #nb-img.loading { opacity: 0.35; }
 .page-canvas-wrap[data-view="notebook"] #page-graph, .page-canvas-wrap[data-view="notebook"] #page-legend,
 .page-canvas-wrap[data-view="notebook"] #pg-redraw, .page-canvas-wrap[data-view="notebook"] #pg-svg { visibility: hidden; }
