@@ -1,0 +1,39 @@
+# andongkwon1476.samhan.ai — Cloudflare Workers, static assets only.
+#
+#   ./scripts/deploy.sh          builds dist/ from web/ + data/ and uploads
+#
+# There is no server: the edition is HTML, CSS, JavaScript, two TSV files and
+# the image derivatives. The custom_domain route makes Cloudflare create and
+# manage the DNS record in the samhan.ai zone, exactly as relinkings.samhan.ai
+# is set up. Deployed 2026-09-23 — see DEPLOY.md.
+
+name = "andongkwon1476"
+main = "worker/index.js"
+compatibility_date = "2026-08-01"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+run_worker_first = true
+not_found_handling = "404-page"
+
+[[routes]]
+pattern = "andongkwon1476.samhan.ai"
+custom_domain = true
+
+# The aggregate view counter, in the namespace samhan.ai, Sebo and Relinkings
+# share, under the domain's one key. One integer.
+[[kv_namespaces]]
+binding = "VISITS"
+id = "77e62cc32c9346c0b7d61b9e94dd57af"
+
+# The reader reports: one D1 table (worker/schema.sql), created 2026-09-23.
+# The two secrets were set the same day; to rotate:
+#   npx wrangler secret put ADMIN_PASSWORD     the editor's password for /admin/reports
+#   npx wrangler secret put ADMIN_SECRET       random, signs the 12-hour session cookie
+# Without the binding and the secrets, /api/report answers 503 and the admin
+# page says so; the rest of the site is unaffected.
+[[d1_databases]]
+binding = "REPORTS"
+database_name = "andongkwon1476-reports"
+database_id = "290e64d6-627d-4870-a71d-8d4af770cb27"

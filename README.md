@@ -40,3 +40,21 @@ Verifies the fidelity of the digitized data against the original facsimile. Aims
 The next release will include Jupyter notebooks that demonstrate ways of translating historical research questions into Cypher queries and receiving data visualizations that can be incorporated into an academic monograph or a research article.
 
 Final verification is still underway. In the meantime, feedback and collaboration are warmly welcomed as this open dataset continues to be updated. I hope this resource supports further exploration of premodern Korean history and the application of graph technologies in historical scholarship.
+
+---
+
+### The edition as a website (September 2026)
+
+The page-by-page inspection that `Andong Kwon Genealogy Inspection.ipynb` performed against a Neo4j
+instance now runs in the browser, with no database, at `andongkwon1476.samhan.ai` (in preview). Each
+leaf of the print is shown beside the men it records, drawn with the same canvas Sebo and Relinkings use;
+the record, the relations and the transcriber's notes are beneath the drawing, and every man is a link
+to the leaf he stands on. See `ARCHITECTURE.md` for how it is built, `DEPLOY.md` for how it runs, and
+`web/js/samhan-graph/README.md` for the shared canvas.
+
+    python3 scripts/build_images.py     # once: derive web-sized images from facsimile/ and inspection/
+    python3 scripts/assemble.py         # write web/index.html from the template
+    python3 server.py 8160              # http://127.0.0.1:8160/
+
+The tables it reads are `data/andongkwon_1476_{nodes,edges}_20250707.tsv`, the 7 July 2025 revision;
+`tsv/` remains the 20 June 2025 release as published.

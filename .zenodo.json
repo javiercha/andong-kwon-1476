@@ -1,0 +1,13 @@
+{
+  "title": "The Andong Kwŏn Genealogy of 1476 (安東權氏成化譜): a digital scholarly edition",
+  "upload_type": "dataset",
+  "description": "A critical digital edition of the Andong Kwŏn ssi Sŏnghwabo, the oldest extant comprehensive Korean genealogy (1476): node and edge tables of the men it records and the descent and marriage relations among them, the facsimile of the Academy of Korean Studies copy (AKS JE A 55020), and a reading environment presenting each leaf beside the men it records. Tables of 7 July 2025.",
+  "creators": [{ "name": "Cha, Javier", "affiliation": "University of Hong Kong" }],
+  "access_right": "open",
+  "license": "CC-BY-4.0",
+  "keywords": ["Korea", "Koryŏ", "Chosŏn", "genealogy", "kinship", "Andong Kwŏn", "digital edition"],
+  "related_identifiers": [
+    { "identifier": "https://andongkwon1476.samhan.ai/", "relation": "isSupplementTo", "resource_type": "publication-other" }
+  ],
+  "version": "0.9"
+}

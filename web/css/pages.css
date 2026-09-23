@@ -1,0 +1,45 @@
+/* The edition's back matter: the People, Lineages and Data pages. Read, not
+   operated, so they scroll; the same sheets and tokens as the application. */
+body.page { height: auto; overflow: auto; }
+body.page .top-bar.page-bar { position: sticky; top: 0; z-index: 20; }
+body.page .app-title a { color: inherit; text-decoration: none; }
+body.page .view-toggles a { text-decoration: none; }
+.page-main { max-width: 1180px; margin: 0 auto; padding: 22px var(--gutter, 18px) 60px; }
+.page-main h2 { font-family: var(--fd); font-weight: 400; font-size: 26px; margin: 0 0 6px; }
+.page-main h2 small, .page-main h3 small { font-family: var(--fm); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--color-text-faint); margin-left: 12px; }
+.page-main h3 { font-family: var(--fd); font-weight: 400; font-size: 20px; margin: 30px 0 8px; scroll-margin-top: 140px; }
+.page-main .lede { max-width: 74ch; color: var(--color-text-secondary); line-height: 1.6; margin: 0 0 18px; }
+.page-main p { max-width: 74ch; line-height: 1.6; color: var(--color-text-secondary); }
+.surnames { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0 0 22px; font-size: 15px; }
+.surnames a { text-decoration: none; color: var(--color-text-primary); border-bottom: 1px solid var(--hair); }
+.surnames a .n { font-family: var(--fm); font-size: 10.5px; color: var(--color-text-faint); margin-left: 3px; vertical-align: super; }
+table.idx { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-bottom: 8px; }
+table.idx th, table.idx td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+table.idx th { font-family: var(--fm); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; font-weight: 400; color: var(--color-text-secondary); position: sticky; top: 118px; background: var(--pn); }
+table.idx td.hanja { font-size: 14px; }
+table.idx td.roman { font-style: italic; color: var(--color-text-secondary); }
+table.idx td.office { color: var(--color-text-faint); font-size: 13.5px; }
+table.idx td.n, table.idx th.n { text-align: right; }
+table.idx td.men { line-height: 1.9; }
+table.idx td.men a { color: var(--color-text-primary); text-decoration: none; border-bottom: 1px dotted var(--hair); }
+table.idx td.men a:hover { color: var(--acc2); }
+table.idx td a { color: var(--acc2); text-decoration: none; }
+table.idx .faint { color: var(--color-text-faint); }
+table.idx .inf { font-family: var(--fm); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--acc); margin-left: 4px; }
+table.idx.files td.sha { font-size: 11.5px; word-break: break-all; color: var(--color-text-faint); }
+table.idx.files tr.cols td { font-size: 12.5px; padding-top: 0; border-bottom-color: var(--color-border); }
+pre.cite { white-space: pre-wrap; font-family: var(--fb); font-size: 14px; line-height: 1.55; background: var(--pn); border: 1px solid var(--color-border); padding: 12px 14px; max-width: 78ch; }
+pre.cite em { font-style: italic; }
+.page-foot { max-width: 1180px; margin: 0 auto; padding: 14px var(--gutter, 18px) 40px; font-size: 10.5px; letter-spacing: .1em; color: var(--color-text-faint); }
+.page-foot a { color: var(--acc2); text-decoration: none; }
+@media (max-width: 700px) {
+  .page-main { overflow-x: hidden; }
+  table.idx { font-size: 13.5px; }
+  table.idx th { top: 150px; }
+  table.idx th, table.idx td { padding: 4px 5px; }
+  /* office, generation and id give way; the name, the reading, the lineage and the leaf stay */
+  table.idx td.office, table.idx th:nth-child(4), table.idx td:nth-child(5), table.idx th:nth-child(5), table.idx td:nth-child(7), table.idx th:nth-child(7) { display: none; }
+  table.idx.files td:nth-child(5), table.idx.files th:nth-child(5), table.idx.files td:nth-child(7) { display: revert; }
+  table.idx.files td.sha { font-size: 10.5px; }
+  table.idx td.men { word-break: break-all; }
+}

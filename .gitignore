@@ -1,0 +1,19 @@
+
+# ── the edition site (added 2026-09-23) ───────────────────────────────────
+# derivatives, rebuilt by scripts/build_images.py from facsimile/ and inspection/
+web/facsimile/pages/
+web/facsimile/thumbs/
+web/facsimile/full/
+web/notebook/
+# the assembled page — scripts/assemble.py writes it from index.template.html
+web/index.html
+dist/
+.server.log
+.wrangler/
+node_modules/
+__pycache__/
+.DS_Store
+test/shots/
+# reader reports and the editor's password — never committed, never served
+data/reports.sqlite*
+data/admin.password

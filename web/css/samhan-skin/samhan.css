@@ -1,0 +1,820 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Relinkings — samhan.ai skin.
+
+   Loaded AFTER css/main.css. It states the "hanji mineral" palette of
+   samhan.ai as custom properties and sets the header into the lemma form the
+   parent site uses for an application record. Forked from Sebo's skin of the
+   same name; the tokens are identical, so the two applications are the same
+   sheet of paper.
+
+   Rules of the house, inherited from samhan.ai:
+     · ink is evidence; crimson (--acc) is what remains to be done — unturned,
+       proposed, not yet adjudicated. Crimson is never a button and never
+       decoration. The one licensed ornament is the apparatus bracket `]`.
+     · mineral blue (--acc2) is for outward links and for the app's own accent.
+     · hairlines only. No card shadows. No corner larger than 2px.
+     · IBM Plex Mono carries every identifier, count and label; Newsreader
+       carries display type; Public Sans carries running text; Noto Serif TC
+       carries hanja and Noto Serif KR hangul.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. tokens ───────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme="dark"] {
+  /* samhan — dark. A dark sheet, not a black screen: the ground carries the
+     same mugwort warmth the light scheme does. */
+  --bg: #23231E;
+  --pn: #2C2C26;
+  --pn2: #191914;
+  --ink: #EDEAE0;
+  --soft: #B7B29E;
+  --faint: #999585;
+  --rule: #3E3D34;
+  --hair: #54523F;
+  --acc: #DE8365;
+  --mark-acc: #DA5549;
+  --acc2: #8FB4D6;
+
+  --fd: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+        "Times New Roman", serif;
+  --fb: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+        Arial, sans-serif;
+  --fm: "IBM Plex Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+        monospace;
+  --fh: "Noto Serif CJK JP", "Noto Serif CJK KR", "Noto Serif TC", "Noto Serif KR",
+        "Songti TC", "Songti SC", "PingFang TC", "Hiragino Mincho ProN",
+        "Yu Mincho", "Nanum Myeongjo", "AppleMyungjo", serif;
+  --fk: "Noto Serif KR", "Apple SD Gothic Neo", "Malgun Gothic", serif;
+
+  --u: 8px;
+  --gutter: clamp(14px, 2.4vw, 26px);
+
+  /* ── the palette main.css asks for, restated ── */
+  --color-bg: var(--bg);
+  --color-surface: var(--pn);
+  --color-surface-elevated: var(--pn2);
+  --color-surface-hover: #262319;
+  --color-border: var(--rule);
+  --color-text-primary: var(--ink);
+  --color-text-secondary: var(--soft);
+  --color-text-faint: var(--faint);
+  --color-accent-primary: var(--acc2);
+  --color-accent-primary-hover: #9BBBD8;
+  --color-accent-secondary: #C9A272;
+  --color-primary: var(--acc2);
+  --color-has-son: var(--acc2);
+  --color-has-sil: #C9A272;
+  --color-success: #86A98C;
+  --color-danger: #C8796A;
+  --color-warning: #C9B472;
+  --graph-bg: var(--bg);
+
+  /* graph inks. Descent (HAS_SON) takes the application's own accent; a
+     marriage (HAS_SIL) is dashed in the secondary. The third ink is not a
+     relation but a figure: a man outside the Andong Kwŏn is drawn hollow in
+     the quieter tone. Round 3 retired the AK / SSB edge types, so the ink
+     that carried the second kind of descent now carries only the figures. */
+  --g-son-ak: var(--acc2);
+  --g-son-ssb: var(--soft);
+  --g-sil: var(--color-has-sil);
+  --g-node-ak: var(--acc2);
+  --g-node-other: var(--soft);
+  --g-highlight: var(--acc);
+  --g-lane: var(--rule);
+
+  --font-family: var(--fb);
+  --border-radius: 2px;
+  --border-radius-lg: 2px;
+  --border-radius-sm: 2px;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --transition-fast: 0.15s ease;
+
+  --heat-0: rgba(143, 180, 214, 0.00);
+  --heat-1: rgba(143, 180, 214, 0.90);
+  --scrim: rgba(10, 9, 7, 0.68);
+}
+
+[data-theme="light"] {
+  /* samhan — light */
+  --bg: #F7F5EF;
+  --pn: #FFFDF8;
+  --pn2: #EFEBE0;
+  --ink: #17150F;
+  --soft: #625C4E;
+  --faint: #8C8474;
+  --rule: #DCD5C4;
+  --hair: #C9C0AC;
+  --acc: #A8352A;
+  --mark-acc: #A8352A;
+  --acc2: #2E4C6D;
+
+  --color-surface-hover: #EAE5D8;
+  --color-accent-primary-hover: #22384F;
+  --color-accent-secondary: #8A5A2B;
+  --color-has-sil: #8A5A2B;
+  --color-success: #40624A;
+  --color-danger: #8F4034;
+  --color-warning: #7E6220;
+
+  --heat-0: rgba(46, 76, 109, 0.00);
+  --heat-1: rgba(46, 76, 109, 0.92);
+  --scrim: rgba(23, 21, 15, 0.42);
+}
+
+/* ── 2. base type ────────────────────────────────────────────────────────── */
+
+body {
+  font-family: var(--fb);
+  font-feature-settings: "kern", "liga", "tnum";
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 { font-weight: 500; letter-spacing: -0.006em; }
+
+.mono, .num, .rl-id, code, kbd, pre, samp { font-family: var(--fm); }
+.hanja { font-family: var(--fh); }
+.hangul { font-family: var(--fk); }
+
+/* ── 3. the imprint strip ────────────────────────────────────────────────── */
+
+.samhan-imprint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 38px;
+  flex: 0 0 auto;
+  padding: 0 var(--gutter);
+  background: var(--pn);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--fm);
+  font-size: 9.6px;
+  letter-spacing: 0.17em;
+  color: var(--soft);
+  position: relative;
+  z-index: 12;
+}
+.samhan-imprint a { text-decoration: none; color: inherit; }
+.samhan-imprint-home {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--soft);
+  transition: color 0.2s ease;
+}
+.samhan-imprint-home:hover { color: var(--ink); }
+.samhan-imprint-home svg { display: block; transform: translateY(25%); }
+.samhan-imprint-home span {
+  font-family: var(--fd);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: -0.008em;
+  color: var(--ink);
+}
+.samhan-imprint-home .pt { color: var(--mark-acc, var(--acc)); }
+.samhan-imprint-sp { flex: 1 1 auto; min-width: 8px; }
+.samhan-imprint-note { white-space: nowrap; }
+
+/* ── 4. the lemma header ─────────────────────────────────────────────────── */
+
+.top-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-items: end;
+  padding: 0;
+  gap: 0;
+  background-color: var(--pn);
+  border-bottom: 1px solid var(--rule);
+  flex: 0 0 auto;
+}
+
+.top-bar-left {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: clamp(12px, 2vw, 20px) var(--gutter) clamp(10px, 1.4vw, 14px);
+  min-width: 0;
+}
+
+.top-bar-right {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 var(--gutter) clamp(10px, 1.4vw, 14px) 12px;
+}
+
+.top-bar-center {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 0 var(--gutter);
+  border-top: 1px solid var(--rule);
+  overflow: visible;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.brand-group {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: clamp(10px, 1.6vw, 18px);
+  row-gap: 4px;
+  min-width: 0;
+}
+
+/* ── one middle axis for Relinkings ALPHA 安東權氏成化譜 1476 ──────────────
+   The lemma hangs from a single horizontal axis, and every piece is centred on
+   it. The pieces are set in four faces at four sizes — Newsreader for the
+   title, IBM Plex Mono for the stage and the counts, Noto Serif for the hanja
+   — and a shared baseline puts small mono type visually low against a 31px
+   title. Centring each box on the axis instead is what the eye reads as one
+   line. */
+.app-title {
+  grid-column: 1;
+  grid-row: 1;
+  /* The one piece of the lemma that is not centred on the row. samhan.ai's
+     index flies the entry's title to this box's top-left edge and to the
+     middle of its cap band, and it computes both from the header's published
+     rules — the imprint strip plus this row's own top padding — before it has
+     ever seen this page. `align-items: center` on .brand-group would make the
+     title's top depend on how tall the apparatus beside it happens to be, so
+     between about 1000 and 1500px, where the apparatus wraps to two or three
+     lines, the title sank by up to ten pixels and the flight landed short.
+     Pinned to the row's top edge it is where the index says it is at every
+     width; the apparatus still centres itself against it, which is what the
+     eye reads as one axis whenever the apparatus is a single line. */
+  align-self: start;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+  font-family: var(--fd);
+  --tsz: clamp(22px, 2.4vw, 31px);
+  --hsz: calc(0.68 * var(--tsz));
+  --mid: calc(0.338 * var(--tsz));
+  font-size: var(--tsz);
+  font-weight: 400;
+  letter-spacing: -0.024em;
+  line-height: 1.06;
+  color: var(--ink);
+  margin: 0;
+}
+.app-title .rl-stage {
+  font-family: var(--fm);
+  font-size: 8.2px;
+  letter-spacing: 0.16em;
+  border: 1px solid var(--acc);
+  color: var(--acc);
+  padding: 2px 5px;
+  line-height: 1;
+  white-space: nowrap;
+  align-self: center;
+  flex: 0 0 auto;
+  /* samhan.ai's own stage tag, to the pixel: the deckle doubling that the
+     hanji sheet gives every hairline, so ALPHA here reads as BETA does on the
+     index. The dashed ALPHA variant was dropped on both sides — a stage is a
+     stage, and the word already says which. */
+  box-shadow: 0 0 0 .5px color-mix(in srgb, var(--acc) 55%, var(--ink));
+}
+/* No apparatus bracket here. Round 3 took it out of the header for a reason
+   that still holds — a reader who does not already know the convention reads
+   it as a typographical accident, and the header has to be legible before it
+   can be a lemma — but the reason it does not come back is narrower and
+   firmer: the bracket marks a lemma the reader is pointing at, and nobody
+   points at a masthead. It is where you already are. Section 10 gives the
+   bracket the places where the pointing actually happens. */
+
+.rl-ap {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.5vw, 18px);
+  flex-wrap: wrap;
+  font-family: var(--fm);
+  font-size: 10.4px;
+  letter-spacing: 0.13em;
+  color: var(--soft);
+  min-width: 0;
+}
+.rl-ap .rl-ap-hj { font-family: var(--fh); letter-spacing: 0.04em; }
+.rl-ap .rl-ap-n { color: var(--ink); }
+.rl-ap .rl-ap-status[data-state="loading"] { color: var(--acc); }
+.rl-ap .rl-ap-status[data-state="error"] { color: var(--acc); }
+
+.app-subtitle {
+  display: block;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  font-family: var(--fd);
+  font-style: italic;
+  font-size: clamp(13px, 1.4vw, 15.5px);
+  letter-spacing: -0.006em;
+  color: var(--soft);
+}
+
+/* ── 5. the tool tab row ─────────────────────────────────────────────────── */
+
+.view-toggles {
+  order: 1;
+  display: flex;
+  background: none;
+  border: 0;
+  gap: clamp(14px, 2vw, 24px);
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.view-toggles::-webkit-scrollbar { display: none; }
+
+.btn-toggle {
+  font-family: var(--fm);
+  font-size: 9.6px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--soft);
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 11px 0;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.btn-toggle:hover { color: var(--ink); background: none; }
+.btn-toggle.active {
+  color: var(--acc2);
+  background: none;
+  border-bottom-color: var(--acc2);
+}
+
+.top-bar-center .rl-tabspacer { flex: 1 1 auto; }
+
+/* ── 6. header controls on the right ─────────────────────────────────────── */
+
+.topbar-action {
+  height: 26px;
+  min-width: 26px;
+  padding: 0 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 2px;
+  border: 1px solid var(--hair);
+  background: transparent;
+  color: var(--soft);
+  font-family: var(--fm);
+  font-size: 9.6px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.topbar-action:hover { color: var(--ink); border-color: var(--ink); background: transparent; }
+
+/* ── 7. one left edge ────────────────────────────────────────────────────── */
+
+.bottom-status-bar {
+  font-family: var(--fm);
+  font-size: 9.6px;
+  letter-spacing: 0.08em;
+  background-color: var(--pn);
+  border-top: 1px solid var(--rule);
+  color: var(--soft);
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.sidebar, .right-drawer { background-color: var(--pn); }
+.sidebar h3, .tool-group > h3 {
+  font-family: var(--fm);
+  font-size: 9.6px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--soft);
+}
+
+/* ── 8. small screens ────────────────────────────────────────────────────────
+   These are not this application's own decisions. samhan.ai's index carries a
+   work's title across the seam by computing where that work's header will put
+   it, and the rules it computes from are the published ones — the gutter, the
+   imprint strip's height, the header's top padding and the title's size, each
+   with its own breakpoint at 700px. Sebo states them; Relinkings did not, so
+   below 700 the index aimed at a 20px title 46px down and found a 22px title
+   50px down, and the title jumped on arrival by a visible amount. The header
+   is set to the published rules here rather than the rules being widened to
+   admit two headers, because the rules are what makes the three-way family one
+   family.
+
+   The apparatus is longer here than Sebo's — eight fields against three — so
+   below 1000px it takes a row of its own under the title instead of being
+   squeezed into the column beside it. The title stays in row one either way,
+   which is the only thing the flight depends on. */
+
+@media screen and (max-width: 1000px) {
+  .brand-group {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 3px;
+  }
+  .app-title { grid-column: 1; grid-row: 1; flex-wrap: wrap; }
+  .rl-ap { grid-column: 1; grid-row: 2; font-size: 9.4px; }
+  .app-subtitle { grid-column: 1; grid-row: 3; }
+}
+
+@media screen and (max-width: 700px) {
+  .samhan-imprint { height: 34px; font-size: 9px; }
+  .top-bar-left { padding: 12px var(--gutter) 10px; gap: 10px; }
+  .top-bar-right { padding: 0 var(--gutter) 10px 8px; }
+  .app-title { --tsz: 20px; }
+  .app-subtitle {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.35;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .app-subtitle { display: none; }
+  /* The apparatus keeps its siglum and its source and drops the counts, as
+     Sebo's does at this width. The status is not a count: it is the only place
+     the page says that the corpus failed to load, so it stays. */
+  .rl-ap span:nth-child(n + 3):not(.rl-ap-status) { display: none; }
+
+  /* Sebo carries two icon buttons in the header's right-hand column; this
+     application carries four actions with words on them, 293px of them, and
+     the grid hands an `auto` track its max-content width before the `1fr`
+     track gets anything. Under 480 that left the lemma a column 28px wide: the
+     title overflowed a box of no width, and the index — which flies the title
+     to the box, not to the ink — aimed at a point that was not where the words
+     were. The actions take a row of their own here, above the tool tabs, and
+     the lemma gets the whole measure back at the gutter where the published
+     rules put it. */
+  .top-bar { grid-template-rows: auto auto auto; }
+  .top-bar-left { grid-column: 1 / -1; grid-row: 1; }
+  .top-bar-right {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    row-gap: 6px;
+    padding: 0 var(--gutter) 12px;
+  }
+  .top-bar-center { grid-row: 3; }
+}
+
+
+/* ── 9. the seam with samhan.ai ───────────────────────────────────────────────
+   Relinkings is a work in samhan.ai, and the index sets it out as a lemma in a
+   critical apparatus. Opening the lemma unfolds it in place: before the address
+   changes the index has already flown the entry's title to the position this
+   header gives it, so on arrival the title must already be here and still — it
+   is the one element that never leaves the screen. What settles is everything
+   set beside and beneath it. Departure through the imprint link is the same in
+   reverse: the title holds while the apparatus, the tools and the body let go,
+   and the index reassembles the entry from that same title position.
+
+   The timings, the easing and the structure are Sebo's, unchanged, because the
+   three pages have to read as one movement rather than three dialects of one.
+
+   `.main-layout` is faded but never transformed. A transform on it would make
+   it the containing block for every `position: fixed` descendant — the modals,
+   the drawer, the toasts — and carry them along with it.
+
+   The whole section is inside `prefers-reduced-motion: no-preference`, and both
+   scripts test the same query before they add a class, so a reader who has
+   asked not to be moved is not moved even if one of the two fails. */
+@media (prefers-reduced-motion: no-preference) {
+  html.arriving .app-title { animation: none !important; opacity: 1 !important; transform: none !important; }
+  html.arriving .rl-ap { animation: sh-ap 260ms 40ms cubic-bezier(.22,.61,.36,1) both; }
+  html.arriving .app-subtitle, html.arriving .top-bar-center, html.arriving .top-bar-right,
+  html.arriving .main-layout, html.arriving .bottom-status-bar { animation: sh-up 300ms 90ms cubic-bezier(.22,.61,.36,1) both; }
+  html.arriving .samhan-imprint { animation: sh-fade 240ms cubic-bezier(.22,.61,.36,1) both; }
+  @keyframes sh-ap   { from { opacity: 0; transform: translateX(-9px); } to { opacity: 1; transform: none; } }
+  @keyframes sh-up   { from { opacity: .25; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @keyframes sh-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  html.departing .rl-ap { opacity: 0; transform: translateX(-9px); transition: opacity 160ms, transform 200ms; }
+  html.departing .app-subtitle, html.departing .top-bar-center, html.departing .top-bar-right,
+  html.departing .main-layout, html.departing .bottom-status-bar {
+    opacity: 0; transition: opacity 180ms cubic-bezier(.22,.61,.36,1); }
+}
+
+
+/* ── 10. the apparatus bracket ────────────────────────────────────────────
+   The one licensed ornament, and it carries one meaning only: this is a lemma
+   — a headword standing for a record — and the reader is pointing at it right
+   now. So it is shown under the pointer, or under the focus ring where the
+   item can take one, and nowhere else. Not in the masthead (section 4), not
+   during the flight to or from the index (section 9), not at rest.
+
+   Round 3 removed the bracket from this application entirely. That was the
+   right correction to the wrong target: the fault was not the ornament, it
+   was the header, where nothing is being pointed at and an ornament with no
+   occasion is just a mark. The occasion is the list. What is marked here is
+   what Relinkings lists that stands for a record or a finding — the pair that
+   rejoins, the circle that closes, the apparatus note, the search hit — and
+   the drawer's own headword, which is a record and nothing else. Every one of
+   them is something the reader takes to see more.
+
+   Nothing else is marked. A tool head, a tab, a button, a preset: those are
+   controls, not headwords, and a bracket on everything that lights up under
+   the pointer would be decoration, which crimson is never allowed to be.
+
+   It is a ::after on markup that is already there. These lists are rebuilt
+   from strings in js/ hundreds of rows at a time, and an ornament does not
+   earn a wrapper element inside that loop. Because the resting state is
+   opacity 0 rather than a missing box, the space is held from the start and
+   no row changes height or width when the pointer arrives.
+
+   The lift is the header's -.1825, only measured against the row instead of
+   the title, which is the whole trick: the ink centre of ] is .3110 of its own
+   size above the baseline, so at half the row's size it is .1555 of the row,
+   and the middle the row is read on is .338 of the row. The difference is
+   .1825 of the row, which is .365em of a bracket set at half — hence
+   `vertical-align: 0.365em`, right at every size these rows take, from the
+   12px result row to the 26px headword in the drawer.
+
+   Reduced motion keeps the mark — it is a mark, not a movement — and drops
+   only the fade, as the rest of this sheet does. */
+.res-row:not(.said)::after,
+.res-row.said .r-said::after,
+.au-item .au-msg::after,
+.autocomplete-dropdown .ac-item::after,
+.d-name::after {
+  content: "]";
+  font-family: var(--fm);
+  /* half the type size of the row it closes, which is the proportion the
+     index sets it at against its own title. */
+  font-size: 0.5em;
+  color: var(--acc);
+  line-height: 1;
+  opacity: 0;
+  margin-left: 5px;
+  vertical-align: 0.365em;
+  transition: opacity 240ms var(--ease);
+}
+.res-row:not(.said):hover::after,
+.res-row.said:hover .r-said::after,
+.au-item:hover .au-msg::after,
+.au-item:focus-visible .au-msg::after,
+.autocomplete-dropdown .ac-item:hover::after,
+/* `.sel` is how the autocomplete says "this hit is the one the arrow keys are
+   on"; DOM focus stays in the input, so this is the keyboard's focus-visible
+   for a search result and has to light the bracket like one. */
+.autocomplete-dropdown .ac-item.sel::after,
+.d-name:hover::after {
+  opacity: 0.45;
+}
+/* The one .res-row list that is not a list of records: a saved preset stands
+   for a query the reader wrote, not for a man or a finding, so it keeps the
+   row and loses the mark. */
+#ex-presets .res-row::after { content: none; }
+@media (prefers-reduced-motion: reduce) {
+  .res-row:not(.said)::after,
+  .res-row.said .r-said::after,
+  .au-item .au-msg::after,
+  .autocomplete-dropdown .ac-item::after,
+  .d-name::after { transition: none; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   한지 — the same sheet samhan.ai is printed on.
+
+   A skin and nothing more: no layout, no geometry, no z-index that an app
+   control has to argue with. The ground gets fibre, formation and the mugwort
+   stock; every --pn surface is the burnished sheet against it; the chrome
+   rules stop being straight lines; the record tables are mounted in
+   alternating sheet tones; and the window's own edge is torn.
+
+   Every mask takes its colour from a token, so one asset serves both themes.
+   The fibre mat is replaced per view by the boot script in index.html.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --tex-fibre:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='760'%20height='760'%20viewBox='0%200%20760%20760'%20preserveAspectRatio='none'%3E%3Cg%20fill='none'%20stroke='%23000000'%20stroke-opacity='0.22'%20stroke-width='0.8'%3E%3Cpath%20d='M442%20148C387%20157%20328%20155%20277%20166M219%20526C256%20556%20301%20601%20354%20632M279%20358C299%20390%20322%20429%20347%20471M84%20626C67%20661%2034%20699%2012%20740M307%20508C345%20506%20372%20514%20418%20511M7%20429C19%20430%2035%20450%2060%20456M553%20276C536%20315%20516%20348%20502%20375M525%20519C538%20517%20576%20527%20590%20521M637%2090C613%20135%20572%20163%20548%20208M602%20561C576%20566%20543%20592%20500%20597M257%2051C247%2088%20239%20147%20236%20187M69%20712C80%20740%20113%20746%20125%20769M73%20497C58%20509%2037%20511%2020%20516M611%20181C641%20215%20666%20256%20699%20283M219%20516C179%20522%20147%20532%20122%20550M92%20260C109%20296%20123%20324%20135%20360M504%20418C537%20437%20581%20444%20615%20465M331%20346C334%20370%20359%20376%20366%20394M507%20204C477%20248%20447%20300%20403%20338M44%20313C51%20335%2057%20377%2057%20400M47%20526C79%20567%20110%20588%20135%20624M555%20112C529%20134%20507%20171%20489%20194M73%20177C97%20192%20116%20212%20134%20219M341%2029C377%2058%20405%2067%20438%2094M450%20710C485%20759%20505%20799%20534%20855M84%2031C77%2077%2061%20116%2036%20163M102%2045C135%2072%20145%20111%20175%20139M295%20424C349%20453%20395%20469%20435%20496M25%20232C-16%20237%20-51%20254%20-81%20267M704%20672C663%20710%20629%20739%20598%20772M25%20678C67%20697%20105%20709%20141%20728M602%20713C588%20758%20564%20812%20540%20874M503%20282C493%20283%20459%20291%20448%20309M95%20749C42%20780%206%20807%20-48%20831M205%20738C171%20770%20150%20806%20115%20841M371%20699C376%20750%20400%20791%20410%20852M529%20217C506%20265%20492%20290%20479%20337M336%2049C375%2064%20435%2078%20475%2094M619%20631C643%20648%20662%20656%20675%20663M388%20728C362%20755%20326%20800%20287%20835M10%20194C-14%20221%20-38%20262%20-65%20286M745%20420C724%20437%20722%20445%20701%20469M112%20380C120%20398%20145%20413%20153%20439M612%2057C635%2085%20669%20115%20708%20153M674%20121C635%20169%20602%20210%20569%20248M441%20266C395%20284%20352%20295%20312%20315M713%20741C765%20758%20802%20792%20858%20820M674%20664C707%20684%20718%20713%20751%20741M517%20663C494%20664%20485%20676%20465%20685M701%20468C680%20517%20676%20558%20653%20596M595%20131C631%20131%20666%20148%20692%20148M529%20368C568%20391%20624%20416%20665%20437M179%20668C197%20701%20208%20729%20236%20757M371%20609C396%20638%20409%20682%20421%20721M228%20209C262%20250%20308%20270%20349%20307M595%20442C576%20442%20545%20457%20528%20467M238%20215C226%20262%20222%20303%20207%20356M758%2018C774%2062%20793%20120%20819%20160M666%2062C654%2081%20664%20110%20657%20135M218%20441C242%20455%20278%20461%20311%20465M255%20316C249%20348%20234%20366%20235%20399M15%20371C46%20385%2084%20402%20126%20411M620%20729C632%20779%20641%20843%20638%20890M120%20571C100%20603%2078%20646%2048%20679M139%20734C117%20743%20115%20768%2098%20780M708%20671C721%20685%20748%20700%20770%20718M624%20466C586%20496%20537%20527%20495%20557M350%20508C305%20530%20268%20542%20228%20569M80%20343C27%20359%20-6%20362%20-57%20368M5%20236C17%20270%2044%20303%2061%20334M376%20424C430%20448%20476%20454%20520%20477M223%2039C190%2073%20147%20110%20100%20137M92%2052C43%2076%20-15%20101%20-67%20117M217%2041C204%2056%20176%2064%20166%2077M207%20613C177%20631%20158%20656%20135%20674M720%20244C757%20268%20800%20283%20837%20302M620%20149C600%20166%20581%20174%20560%20197M349%20213C370%20234%20397%20274%20417%20294M720%20137C748%20163%20773%20183%20798%20206M759%20731C741%20738%20721%20767%20689%20780M703%20322C694%20338%20660%20362%20651%20389M505%20408C473%20442%20423%20453%20392%20486M219%20102C206%20148%20200%20185%20196%20241M201%20202C162%20248%20138%20298%20106%20344M113%20727C138%20759%20173%20791%20194%20822M259%20724C310%20749%20363%20789%20404%20813M386%20615C414%20631%20440%20640%20471%20640M441%20546C430%20562%20398%20569%20386%20591M607%20427C557%20437%20510%20459%20453%20463M233%20395C244%20400%20272%20416%20289%20417M570%20733C603%20768%20643%20816%20680%20846M353%2044C373%2075%20382%20113%20403%20157M390%20299C415%20333%20435%20362%20452%20397M704%2089C725%2091%20741%2090%20769%20104M598%2044C571%2097%20560%20146%20530%20201M699%2026C688%2080%20685%20128%20665%20171'/%3E%3C/g%3E%3C/svg%3E");
+  --tex-size:760px 760px;
+  --tex-grain:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='128'%20height='128'%20viewBox='0%200%20128%20128'%20preserveAspectRatio='none'%3E%3Cfilter%20id='g'%20x='0'%20y='0'%20width='100%25'%20height='100%25'%20color-interpolation-filters='sRGB'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.85'%20numOctaves='1'%20seed='5'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20values='1%200%200%200%200%201%200%200%200%200%201%200%200%200%200%200%200%200%200%200.03'/%3E%3C/filter%3E%3Crect%20width='128'%20height='128'%20filter='url(%23g)'/%3E%3C/svg%3E");
+  --tex-grain-pn:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='128'%20height='128'%20viewBox='0%200%20128%20128'%20preserveAspectRatio='none'%3E%3Cfilter%20id='g'%20x='0'%20y='0'%20width='100%25'%20height='100%25'%20color-interpolation-filters='sRGB'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.85'%20numOctaves='1'%20seed='5'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20values='1%200%200%200%200%201%200%200%200%200%201%200%200%200%200%200%200%200%200%200.020'/%3E%3C/filter%3E%3Crect%20width='128'%20height='128'%20filter='url(%23g)'/%3E%3C/svg%3E");
+  --tex-mug:rgba(132,148,124,.030);
+  --tex-zebra:rgba(224,220,200,.022);
+  --table:#141410;
+  --tex-lit:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='760'%20height='760'%20viewBox='0%200%20760%20760'%20preserveAspectRatio='none'%3E%3Cg%20fill='none'%20stroke-linecap='round'%3E%3Cg%20stroke='%23000000'%20stroke-opacity='0.1'%20stroke-width='1.08'%20transform='translate(0.95%201.25)'%3E%3Cpath%20d='M336%20313C294%20314%20260%20322%20231%20315M536%20564C568%20586%20590%20588%20619%20607M118%20264C162%20291%20199%20320%20243%20350M454%2056C429%2064%20391%2060%20372%2062M523%20396C530%20429%20522%20463%20530%20485M85%20536C66%20554%2051%20585%2035%20605M36%20382C46%20393%2064%20429%2071%20441M473%20399C517%20431%20549%20455%20597%20477M259%20468C241%20514%20237%20555%20222%20605M630%20392C578%20399%20545%20408%20496%20427M536%20697C581%20710%20619%20730%20666%20753M130%20400C107%20423%2099%20438%2077%20462M48%20675C36%20710%209%20740%20-8%20770M77%20325C107%20332%20152%20346%20189%20350M755%20532C796%20556%20837%20585%20889%20601M34%20441C81%20457%20123%20493%20159%20508M619%20311C591%20342%20562%20374%20528%20413M2%20650C-35%20685%20-76%20712%20-118%20740M702%2092C695%20116%20695%20157%20693%20190M671%20344C711%20352%20772%20385%20815%20394M309%20141C337%20135%20379%20144%20421%20147M748%20504C797%20533%20850%20564%20893%20592M403%20125C368%20168%20342%20223%20316%20269M544%20735C566%20750%20588%20778%20622%20800M471%20272C458%20307%20447%20346%20425%20380M140%20440C146%20492%20144%20529%20142%20577M577%20192C573%20217%20560%20219%20555%20245M740%20694C720%20726%20683%20751%20658%20770M546%20472C504%20503%20479%20541%20442%20577M609%20206C613%20232%20627%20276%20631%20310M350%20344C366%20363%20379%20395%20382%20425M629%20678C666%20704%20720%20714%20760%20740M601%20366C636%20391%20652%20406%20691%20436M254%20705C232%20745%20205%20796%20193%20844M575%20653C530%20689%20484%20718%20443%20754M396%20529C343%20546%20282%20565%20232%20576M325%20637C302%20666%20271%20713%20239%20748M37%20416C-8%20440%20-63%20465%20-103%20490M526%20667C527%20697%20528%20730%20528%20771M50%20743C88%20743%20124%20739%20163%20747M735%20608C763%20622%20799%20642%20822%20654M137%20486C168%20482%20177%20503%20209%20500M52%20458C91%20465%20137%20464%20193%20474M543%20428C580%20429%20616%20438%20652%20444M615%20547C557%20570%20507%20600%20457%20615M598%20463C567%20488%20529%20527%20489%20562M276%20507C276%20528%20301%20547%20303%20567M307%20360C286%20411%20248%20454%20222%20510M517%20465C475%20491%20446%20529%20404%20565M738%2096C744%20114%20742%20130%20748%20154M241%20599C229%20646%20234%20677%20228%20728M648%20576C652%20615%20638%20667%20640%20720M262%20553C272%20604%20307%20644%20316%20684M716%20547C711%20584%20711%20606%20700%20643M704%20450C716%20473%20716%20515%20720%20542M563%20357C603%20383%20621%20413%20658%20432M432%20255C481%20258%20534%20281%20581%20283M114%2090C77%2091%2049%20101%2026%20101M660%20399C649%20424%20621%20452%20601%20473M326%20402C292%20413%20243%20415%20210%20413M359%20163C404%20182%20449%20212%20489%20245M561%20456C522%20476%20461%20490%20422%20511M537%20530C498%20556%20460%20564%20413%20586M166%20453C147%20495%20145%20541%20123%20596M535%20577C551%20584%20582%20602%20595%20602M245%20732C261%20773%20289%20810%20310%20852M727%2062C736%20100%20729%20134%20734%20178M490%20738C491%20761%20510%20802%20519%20824M120%20571C151%20609%20189%20656%20228%20692M273%20701C290%20752%20308%20792%20316%20839M27%2053C35%2076%2044%20121%2058%20145M68%20519C86%20571%2099%20625%20120%20678M249%2075C268%2085%20274%20112%20299%20118M732%20103C756%20123%20769%20157%20793%20183M732%20419C693%20451%20666%20490%20628%20519M55%20633C7%20643%20-44%20641%20-88%20650M34%20235C69%20283%20104%20318%20147%20368M349%20350C338%20374%20325%20394%20308%20411M723%20401C744%20435%20790%20453%20815%20475M431%20497C469%20530%20489%20549%20529%20579M471%2030C476%2072%20495%2098%20495%20144M176%20255C231%20260%20265%20269%20319%20288M394%20203C421%20238%20453%20288%20484%20331M81%20387C92%20432%20115%20492%20122%20542M419%2099C448%20130%20481%20157%20505%20183M690%20558C734%20594%20755%20615%20801%20650M425%20642C388%20661%20369%20695%20330%20723M509%20720C484%20730%20456%20717%20425%20729M18%20708C77%20720%20123%20726%20172%20744M591%20572C569%20614%20548%20654%20533%20699M297%20215C300%20234%20280%20261%20285%20270M443%2041C406%2051%20383%2056%20351%2068M399%20474C360%20490%20320%20512%20288%20527M223%20624C230%20638%20234%20664%20237%20687M282%20652C291%20700%20285%20738%20298%20771M19%20109C39%20129%2064%20140%2080%20163M690%20664C744%20692%20779%20733%20827%20763M598%20737C621%20766%20638%20791%20671%20811M220%20526C206%20549%20214%20568%20204%20586M486%20658C519%20670%20562%20674%20600%20686M173%20210C153%20229%20135%20262%20124%20275M502%20243C486%20259%20459%20257%20430%20269M327%20753C342%20753%20358%20771%20381%20779M139%20198C171%20235%20205%20277%20231%20323M204%20122C235%20152%20264%20177%20291%20214M141%2043C163%2074%20164%20126%20183%20159M527%20449C539%20506%20565%20546%20575%20597M365%20204C401%20220%20444%20240%20472%20250M488%20739C537%20764%20604%20776%20652%20791M576%20629C557%20669%20547%20718%20536%20761M636%20353C636%20395%20640%20427%20629%20469M460%20717C477%20747%20493%20775%20522%20792M183%20326C138%20357%2084%20382%2039%20412M42%20435C33%20476%2029%20526%2016%20571M206%20729C163%20744%20134%20752%2093%20762M232%2064C203%20109%20162%20139%20125%20183M598%2091C552%20110%20492%20122%20433%20131M97%20754C142%20785%20183%20799%20226%20835M55%20576C69%20611%2093%20657%20112%20701M603%20282C641%20298%20675%20307%20699%20308M248%20391C218%20392%20184%20409%20143%20418M454%20544C479%20559%20487%20592%20516%20618M66%20387C27%20381%201%20390%20-45%20390M705%20703C712%20732%20703%20750%20704%20784M52%201C5%2017%20-42%2027%20-89%2049M295%20580C343%20605%20405%20606%20462%20631M417%2089C429%20102%20454%20135%20469%20157M39%20759C52%20796%2061%20820%2077%20863M24%20170C9%20190%20-6%20224%20-13%20250M0%20342C20%20355%2041%20376%2054%20396M171%20223C164%20264%20146%20298%20129%20328M1%20529C16%20560%2023%20607%2027%20640M341%20530C324%20551%20300%20561%20277%20571M403%20201C443%20198%20491%20215%20532%20214M197%2052C199%2091%20202%20152%20211%20192M571%20467C591%20482%20621%20516%20637%20537M255%20223C227%20247%20204%20273%20167%20296M324%20303C290%20306%20258%20318%20228%20313M66%2068C12%2085%20-31%2082%20-87%2097M600%20682C589%20731%20578%20761%20574%20810'/%3E%3C/g%3E%3Cg%20stroke='%23F2E9D6'%20stroke-opacity='0.048'%20stroke-width='0.92'%3E%3Cpath%20d='M336%20313C294%20314%20260%20322%20231%20315M536%20564C568%20586%20590%20588%20619%20607M118%20264C162%20291%20199%20320%20243%20350M454%2056C429%2064%20391%2060%20372%2062M523%20396C530%20429%20522%20463%20530%20485M85%20536C66%20554%2051%20585%2035%20605M36%20382C46%20393%2064%20429%2071%20441M473%20399C517%20431%20549%20455%20597%20477M259%20468C241%20514%20237%20555%20222%20605M630%20392C578%20399%20545%20408%20496%20427M536%20697C581%20710%20619%20730%20666%20753M130%20400C107%20423%2099%20438%2077%20462M48%20675C36%20710%209%20740%20-8%20770M77%20325C107%20332%20152%20346%20189%20350M755%20532C796%20556%20837%20585%20889%20601M34%20441C81%20457%20123%20493%20159%20508M619%20311C591%20342%20562%20374%20528%20413M2%20650C-35%20685%20-76%20712%20-118%20740M702%2092C695%20116%20695%20157%20693%20190M671%20344C711%20352%20772%20385%20815%20394M309%20141C337%20135%20379%20144%20421%20147M748%20504C797%20533%20850%20564%20893%20592M403%20125C368%20168%20342%20223%20316%20269M544%20735C566%20750%20588%20778%20622%20800M471%20272C458%20307%20447%20346%20425%20380M140%20440C146%20492%20144%20529%20142%20577M577%20192C573%20217%20560%20219%20555%20245M740%20694C720%20726%20683%20751%20658%20770M546%20472C504%20503%20479%20541%20442%20577M609%20206C613%20232%20627%20276%20631%20310M350%20344C366%20363%20379%20395%20382%20425M629%20678C666%20704%20720%20714%20760%20740M601%20366C636%20391%20652%20406%20691%20436M254%20705C232%20745%20205%20796%20193%20844M575%20653C530%20689%20484%20718%20443%20754M396%20529C343%20546%20282%20565%20232%20576M325%20637C302%20666%20271%20713%20239%20748M37%20416C-8%20440%20-63%20465%20-103%20490M526%20667C527%20697%20528%20730%20528%20771M50%20743C88%20743%20124%20739%20163%20747M735%20608C763%20622%20799%20642%20822%20654M137%20486C168%20482%20177%20503%20209%20500M52%20458C91%20465%20137%20464%20193%20474M543%20428C580%20429%20616%20438%20652%20444M615%20547C557%20570%20507%20600%20457%20615M598%20463C567%20488%20529%20527%20489%20562M276%20507C276%20528%20301%20547%20303%20567M307%20360C286%20411%20248%20454%20222%20510M517%20465C475%20491%20446%20529%20404%20565M738%2096C744%20114%20742%20130%20748%20154M241%20599C229%20646%20234%20677%20228%20728M648%20576C652%20615%20638%20667%20640%20720M262%20553C272%20604%20307%20644%20316%20684M716%20547C711%20584%20711%20606%20700%20643M704%20450C716%20473%20716%20515%20720%20542M563%20357C603%20383%20621%20413%20658%20432M432%20255C481%20258%20534%20281%20581%20283M114%2090C77%2091%2049%20101%2026%20101M660%20399C649%20424%20621%20452%20601%20473M326%20402C292%20413%20243%20415%20210%20413M359%20163C404%20182%20449%20212%20489%20245M561%20456C522%20476%20461%20490%20422%20511M537%20530C498%20556%20460%20564%20413%20586M166%20453C147%20495%20145%20541%20123%20596M535%20577C551%20584%20582%20602%20595%20602M245%20732C261%20773%20289%20810%20310%20852M727%2062C736%20100%20729%20134%20734%20178M490%20738C491%20761%20510%20802%20519%20824M120%20571C151%20609%20189%20656%20228%20692M273%20701C290%20752%20308%20792%20316%20839M27%2053C35%2076%2044%20121%2058%20145M68%20519C86%20571%2099%20625%20120%20678M249%2075C268%2085%20274%20112%20299%20118M732%20103C756%20123%20769%20157%20793%20183M732%20419C693%20451%20666%20490%20628%20519M55%20633C7%20643%20-44%20641%20-88%20650M34%20235C69%20283%20104%20318%20147%20368M349%20350C338%20374%20325%20394%20308%20411M723%20401C744%20435%20790%20453%20815%20475M431%20497C469%20530%20489%20549%20529%20579M471%2030C476%2072%20495%2098%20495%20144M176%20255C231%20260%20265%20269%20319%20288M394%20203C421%20238%20453%20288%20484%20331M81%20387C92%20432%20115%20492%20122%20542M419%2099C448%20130%20481%20157%20505%20183M690%20558C734%20594%20755%20615%20801%20650M425%20642C388%20661%20369%20695%20330%20723M509%20720C484%20730%20456%20717%20425%20729M18%20708C77%20720%20123%20726%20172%20744M591%20572C569%20614%20548%20654%20533%20699M297%20215C300%20234%20280%20261%20285%20270M443%2041C406%2051%20383%2056%20351%2068M399%20474C360%20490%20320%20512%20288%20527M223%20624C230%20638%20234%20664%20237%20687M282%20652C291%20700%20285%20738%20298%20771M19%20109C39%20129%2064%20140%2080%20163M690%20664C744%20692%20779%20733%20827%20763M598%20737C621%20766%20638%20791%20671%20811M220%20526C206%20549%20214%20568%20204%20586M486%20658C519%20670%20562%20674%20600%20686M173%20210C153%20229%20135%20262%20124%20275M502%20243C486%20259%20459%20257%20430%20269M327%20753C342%20753%20358%20771%20381%20779M139%20198C171%20235%20205%20277%20231%20323M204%20122C235%20152%20264%20177%20291%20214M141%2043C163%2074%20164%20126%20183%20159M527%20449C539%20506%20565%20546%20575%20597M365%20204C401%20220%20444%20240%20472%20250M488%20739C537%20764%20604%20776%20652%20791M576%20629C557%20669%20547%20718%20536%20761M636%20353C636%20395%20640%20427%20629%20469M460%20717C477%20747%20493%20775%20522%20792M183%20326C138%20357%2084%20382%2039%20412M42%20435C33%20476%2029%20526%2016%20571M206%20729C163%20744%20134%20752%2093%20762M232%2064C203%20109%20162%20139%20125%20183M598%2091C552%20110%20492%20122%20433%20131M97%20754C142%20785%20183%20799%20226%20835M55%20576C69%20611%2093%20657%20112%20701M603%20282C641%20298%20675%20307%20699%20308M248%20391C218%20392%20184%20409%20143%20418M454%20544C479%20559%20487%20592%20516%20618M66%20387C27%20381%201%20390%20-45%20390M705%20703C712%20732%20703%20750%20704%20784M52%201C5%2017%20-42%2027%20-89%2049M295%20580C343%20605%20405%20606%20462%20631M417%2089C429%20102%20454%20135%20469%20157M39%20759C52%20796%2061%20820%2077%20863M24%20170C9%20190%20-6%20224%20-13%20250M0%20342C20%20355%2041%20376%2054%20396M171%20223C164%20264%20146%20298%20129%20328M1%20529C16%20560%2023%20607%2027%20640M341%20530C324%20551%20300%20561%20277%20571M403%20201C443%20198%20491%20215%20532%20214M197%2052C199%2091%20202%20152%20211%20192M571%20467C591%20482%20621%20516%20637%20537M255%20223C227%20247%20204%20273%20167%20296M324%20303C290%20306%20258%20318%20228%20313M66%2068C12%2085%20-31%2082%20-87%2097M600%20682C589%20731%20578%20761%20574%20810'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  --tex-lit-size:760px 760px;
+  --tex-form:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1024'%20height='1024'%20viewBox='0%200%201024%201024'%20preserveAspectRatio='none'%3E%3Cfilter%20id='f0'%20x='0'%20y='0'%20width='100%25'%20height='100%25'%20color-interpolation-filters='sRGB'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.004'%20numOctaves='3'%20seed='19'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20values='0%200%200%200%200.97%200%200%200%200%200.94%200%200%200%200%200.86%200.026399999999999996%200.0176%200%200%20-0.01364'/%3E%3C/filter%3E%3Crect%20width='1024'%20height='1024'%20filter='url(%23f0)'/%3E%3Cfilter%20id='f1'%20x='0'%20y='0'%20width='100%25'%20height='100%25'%20color-interpolation-filters='sRGB'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.004'%20numOctaves='3'%20seed='56'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20values='0%200%200%200%200.06%200%200%200%200%200.06%200%200%200%200%200.05%200.138%200.09200000000000001%200%200%20-0.0713'/%3E%3C/filter%3E%3Crect%20width='1024'%20height='1024'%20filter='url(%23f1)'/%3E%3C/svg%3E");
+  --tex-form-size:1024px 1024px;
+  --drh:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1000'%20height='3'%20viewBox='0%200%201000%203'%20preserveAspectRatio='none'%3E%3Cpath%20d='M0%201.5L23.3%200.8L46.5%201.9L69.8%201.8L93.0%201.5L116.3%200.9L139.5%202.1L162.8%202.1L186.0%201.5L209.3%201.5L232.6%201.0L255.8%200.5L279.1%201.2L302.3%201.7L325.6%200.6L348.8%202.1L372.1%201.0L395.3%201.0L418.6%200.6L441.9%202.5L465.1%202.0L488.4%202.3L511.6%201.7L534.9%200.6L558.1%201.2L581.4%201.5L604.7%200.7L627.9%202.4L651.2%201.2L674.4%200.8L697.7%202.1L720.9%200.7L744.2%202.4L767.4%201.4L790.7%201.6L814.0%201.2L837.2%201.5L860.5%200.9L883.7%200.6L907.0%202.2L930.2%201.0L953.5%202.1L976.7%200.9L1000.0%201.5'%20fill='none'%20stroke='%23000'%20stroke-width='1.05'%20stroke-linecap='square'/%3E%3C/svg%3E"); --drv:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='3'%20height='1000'%20viewBox='0%200%203%201000'%20preserveAspectRatio='none'%3E%3Cpath%20d='M1.5%200L1.8%2023.3L1.9%2046.5L2.4%2069.8L0.9%2093.0L0.6%20116.3L2.1%20139.5L1.2%20162.8L1.2%20186.0L2.1%20209.3L0.9%20232.6L2.3%20255.8L1.5%20279.1L0.6%20302.3L2.3%20325.6L1.6%20348.8L0.7%20372.1L2.2%20395.3L2.0%20418.6L2.0%20441.9L1.8%20465.1L2.5%20488.4L0.5%20511.6L2.4%20534.9L1.8%20558.1L1.0%20581.4L1.7%20604.7L1.2%20627.9L1.8%20651.2L1.9%20674.4L1.5%20697.7L0.7%20720.9L1.3%20744.2L1.1%20767.4L2.0%20790.7L2.4%20814.0L2.1%20837.2L1.6%20860.5L0.8%20883.7L1.9%20907.0L1.0%20930.2L2.5%20953.5L0.8%20976.7L1.5%201000.0'%20fill='none'%20stroke='%23000'%20stroke-width='1.05'%20stroke-linecap='square'/%3E%3C/svg%3E");
+  --dk-t:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1200'%20height='7'%20viewBox='0%200%201200%207'%20preserveAspectRatio='none'%3E%3Cpath%20d='M0%200L1200%200L1200%207L1178.9%205.9L1157.9%207.2L1136.8%206.5L1115.8%207.4L1094.7%207.5L1073.7%205.2L1052.6%205.0L1031.6%208.4L1010.5%206.0L989.5%205.9L968.4%209.1L947.4%206.9L926.3%208.4L905.3%206.9L884.2%207.6L863.2%205.5L842.1%207.6L821.1%208.5L800.0%207.1L778.9%208.0L757.9%207.7L736.8%205.2L715.8%208.1L694.7%207.4L673.7%206.2L652.6%205.0L631.6%208.5L610.5%206.9L589.5%207.9L568.4%208.6L547.4%207.9L526.3%208.8L505.3%206.6L484.2%208.3L463.2%206.8L442.1%208.8L421.1%208.6L400.0%205.3L378.9%205.5L357.9%205.8L336.8%209.0L315.8%206.7L294.7%207.5L273.7%206.2L252.6%207.0L231.6%206.5L210.5%206.4L189.5%207.4L168.4%207.4L147.4%208.7L126.3%207.8L105.3%208.8L84.2%208.5L63.2%209.1L42.1%207.7L21.1%205.6L0.0%207.0L0%200Z'%20fill='%23000'/%3E%3C/svg%3E"); --dk-b:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1200'%20height='7'%20viewBox='0%200%201200%207'%20preserveAspectRatio='none'%3E%3Cpath%20d='M0%200L21.1%20-0.7L42.1%20-1.5L63.2%200.6L84.2%20-1.8L105.3%200.2L126.3%20-0.6L147.4%20-1.9L168.4%200.0L189.5%20-1.9L210.5%20-0.3L231.6%20-1.8L252.6%20-1.7L273.7%20-0.3L294.7%201.4L315.8%20-1.6L336.8%20-1.2L357.9%200.5L378.9%201.9L400.0%200.3L421.1%20-0.4L442.1%202.0L463.2%20-1.9L484.2%201.5L505.3%20-0.9L526.3%20-1.5L547.4%20-1.6L568.4%20-0.8L589.5%201.3L610.5%20-1.3L631.6%200.3L652.6%200.6L673.7%20-0.5L694.7%200.2L715.8%20-1.8L736.8%20-1.8L757.9%20-1.2L778.9%200.8L800.0%20-0.3L821.1%20-0.8L842.1%200.4L863.2%20-0.2L884.2%20-0.8L905.3%201.2L926.3%200.8L947.4%20-1.1L968.4%200.3L989.5%200.1L1010.5%201.6L1031.6%201.0L1052.6%20-0.9L1073.7%202.0L1094.7%20-1.6L1115.8%20-0.3L1136.8%201.1L1157.9%20-1.5L1178.9%20-0.0L1200.0%200.0L1200%207L0%207L0%200Z'%20fill='%23000'/%3E%3C/svg%3E");
+  --dk-l:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='7'%20height='900'%20viewBox='0%200%207%20900'%20preserveAspectRatio='none'%3E%3Cpath%20d='M0%200L7%200L6.8%2021.4L7.3%2042.9L8.8%2064.3L6.9%2085.7L7.0%20107.1L7.4%20128.6L5.7%20150.0L7.1%20171.4L7.5%20192.9L8.2%20214.3L5.3%20235.7L6.2%20257.1L5.3%20278.6L8.3%20300.0L7.8%20321.4L5.1%20342.9L9.0%20364.3L9.0%20385.7L7.6%20407.1L7.5%20428.6L5.6%20450.0L5.0%20471.4L7.1%20492.9L5.2%20514.3L5.7%20535.7L5.9%20557.1L5.0%20578.6L6.8%20600.0L6.8%20621.4L8.4%20642.9L7.1%20664.3L7.6%20685.7L7.0%20707.1L7.7%20728.6L6.8%20750.0L6.1%20771.4L9.1%20792.9L9.1%20814.3L8.4%20835.7L7.9%20857.1L6.2%20878.6L7.0%20900.0L0%20900L0%200Z'%20fill='%23000'/%3E%3C/svg%3E"); --dk-r:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='7'%20height='900'%20viewBox='0%200%207%20900'%20preserveAspectRatio='none'%3E%3Cpath%20d='M0%200L7%200L7%20900L0%20900L2.0%20878.6L-2.1%20857.1L1.0%20835.7L-1.4%20814.3L2.0%20792.9L-2.0%20771.4L1.6%20750.0L0.8%20728.6L1.5%20707.1L2.1%20685.7L-1.1%20664.3L-0.7%20642.9L0.9%20621.4L-0.9%20600.0L-1.0%20578.6L-1.1%20557.1L1.5%20535.7L1.6%20514.3L1.2%20492.9L-1.2%20471.4L1.8%20450.0L0.0%20428.6L-1.1%20407.1L-0.2%20385.7L-0.3%20364.3L-1.8%20342.9L0.3%20321.4L-0.6%20300.0L0.3%20278.6L1.8%20257.1L0.6%20235.7L-0.4%20214.3L1.5%20192.9L2.1%20171.4L-0.0%20150.0L1.9%20128.6L-2.0%20107.1L-1.5%2085.7L-1.4%2064.3L1.8%2042.9L0.8%2021.4L0.0%200.0Z'%20fill='%23000'/%3E%3C/svg%3E");
+}
+[data-theme="light"]{
+  --tex-fibre:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='760'%20height='760'%20viewBox='0%200%20760%20760'%20preserveAspectRatio='none'%3E%3Cg%20fill='none'%20stroke='%2317150F'%20stroke-opacity='0.042'%20stroke-width='0.75'%3E%3Cpath%20d='M442%20148C387%20157%20328%20155%20277%20166M219%20526C256%20556%20301%20601%20354%20632M279%20358C299%20390%20322%20429%20347%20471M84%20626C67%20661%2034%20699%2012%20740M307%20508C345%20506%20372%20514%20418%20511M7%20429C19%20430%2035%20450%2060%20456M553%20276C536%20315%20516%20348%20502%20375M525%20519C538%20517%20576%20527%20590%20521M637%2090C613%20135%20572%20163%20548%20208M602%20561C576%20566%20543%20592%20500%20597M257%2051C247%2088%20239%20147%20236%20187M69%20712C80%20740%20113%20746%20125%20769M73%20497C58%20509%2037%20511%2020%20516M611%20181C641%20215%20666%20256%20699%20283M219%20516C179%20522%20147%20532%20122%20550M92%20260C109%20296%20123%20324%20135%20360M504%20418C537%20437%20581%20444%20615%20465M331%20346C334%20370%20359%20376%20366%20394M507%20204C477%20248%20447%20300%20403%20338M44%20313C51%20335%2057%20377%2057%20400M47%20526C79%20567%20110%20588%20135%20624M555%20112C529%20134%20507%20171%20489%20194M73%20177C97%20192%20116%20212%20134%20219M341%2029C377%2058%20405%2067%20438%2094M450%20710C485%20759%20505%20799%20534%20855M84%2031C77%2077%2061%20116%2036%20163M102%2045C135%2072%20145%20111%20175%20139M295%20424C349%20453%20395%20469%20435%20496M25%20232C-16%20237%20-51%20254%20-81%20267M704%20672C663%20710%20629%20739%20598%20772M25%20678C67%20697%20105%20709%20141%20728M602%20713C588%20758%20564%20812%20540%20874M503%20282C493%20283%20459%20291%20448%20309M95%20749C42%20780%206%20807%20-48%20831M205%20738C171%20770%20150%20806%20115%20841M371%20699C376%20750%20400%20791%20410%20852M529%20217C506%20265%20492%20290%20479%20337M336%2049C375%2064%20435%2078%20475%2094M619%20631C643%20648%20662%20656%20675%20663M388%20728C362%20755%20326%20800%20287%20835M10%20194C-14%20221%20-38%20262%20-65%20286M745%20420C724%20437%20722%20445%20701%20469M112%20380C120%20398%20145%20413%20153%20439M612%2057C635%2085%20669%20115%20708%20153M674%20121C635%20169%20602%20210%20569%20248M441%20266C395%20284%20352%20295%20312%20315M713%20741C765%20758%20802%20792%20858%20820M674%20664C707%20684%20718%20713%20751%20741M517%20663C494%20664%20485%20676%20465%20685M701%20468C680%20517%20676%20558%20653%20596M595%20131C631%20131%20666%20148%20692%20148M529%20368C568%20391%20624%20416%20665%20437M179%20668C197%20701%20208%20729%20236%20757M371%20609C396%20638%20409%20682%20421%20721M228%20209C262%20250%20308%20270%20349%20307M595%20442C576%20442%20545%20457%20528%20467M238%20215C226%20262%20222%20303%20207%20356M758%2018C774%2062%20793%20120%20819%20160M666%2062C654%2081%20664%20110%20657%20135M218%20441C242%20455%20278%20461%20311%20465M255%20316C249%20348%20234%20366%20235%20399M15%20371C46%20385%2084%20402%20126%20411M620%20729C632%20779%20641%20843%20638%20890M120%20571C100%20603%2078%20646%2048%20679M139%20734C117%20743%20115%20768%2098%20780M708%20671C721%20685%20748%20700%20770%20718M624%20466C586%20496%20537%20527%20495%20557M350%20508C305%20530%20268%20542%20228%20569M80%20343C27%20359%20-6%20362%20-57%20368M5%20236C17%20270%2044%20303%2061%20334M376%20424C430%20448%20476%20454%20520%20477M223%2039C190%2073%20147%20110%20100%20137M92%2052C43%2076%20-15%20101%20-67%20117M217%2041C204%2056%20176%2064%20166%2077M207%20613C177%20631%20158%20656%20135%20674M720%20244C757%20268%20800%20283%20837%20302M620%20149C600%20166%20581%20174%20560%20197M349%20213C370%20234%20397%20274%20417%20294M720%20137C748%20163%20773%20183%20798%20206M759%20731C741%20738%20721%20767%20689%20780M703%20322C694%20338%20660%20362%20651%20389M505%20408C473%20442%20423%20453%20392%20486M219%20102C206%20148%20200%20185%20196%20241M201%20202C162%20248%20138%20298%20106%20344M113%20727C138%20759%20173%20791%20194%20822M259%20724C310%20749%20363%20789%20404%20813M386%20615C414%20631%20440%20640%20471%20640M441%20546C430%20562%20398%20569%20386%20591M607%20427C557%20437%20510%20459%20453%20463M233%20395C244%20400%20272%20416%20289%20417M570%20733C603%20768%20643%20816%20680%20846M353%2044C373%2075%20382%20113%20403%20157M390%20299C415%20333%20435%20362%20452%20397M704%2089C725%2091%20741%2090%20769%20104M598%2044C571%2097%20560%20146%20530%20201M699%2026C688%2080%20685%20128%20665%20171'/%3E%3C/g%3E%3C/svg%3E");
+  --tex-grain:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='128'%20height='128'%20viewBox='0%200%20128%20128'%20preserveAspectRatio='none'%3E%3Cfilter%20id='g'%20x='0'%20y='0'%20width='100%25'%20height='100%25'%20color-interpolation-filters='sRGB'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.85'%20numOctaves='1'%20seed='5'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20values='1%200%200%200%200%201%200%200%200%200%201%200%200%200%200%200%200%200%200%200.045'/%3E%3C/filter%3E%3Crect%20width='128'%20height='128'%20filter='url(%23g)'/%3E%3C/svg%3E");
+  --tex-grain-pn:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='128'%20height='128'%20viewBox='0%200%20128%20128'%20preserveAspectRatio='none'%3E%3Cfilter%20id='g'%20x='0'%20y='0'%20width='100%25'%20height='100%25'%20color-interpolation-filters='sRGB'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.85'%20numOctaves='1'%20seed='5'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20values='1%200%200%200%200%201%200%200%200%200%201%200%200%200%200%200%200%200%200%200.016'/%3E%3C/filter%3E%3Crect%20width='128'%20height='128'%20filter='url(%23g)'/%3E%3C/svg%3E");
+  --tex-mug:rgba(96,112,92,.030);
+  --tex-zebra:rgba(23,21,15,.016);
+  --table:#E7E4D9;
+  --tex-lit:none;--tex-lit-size:auto;
+  --tex-form:none;--tex-form-size:auto;
+}
+
+/* 생지 — the raw ground */
+body{
+  background-color:var(--bg);
+  background-image:var(--tex-form),var(--tex-lit),var(--tex-fibre),var(--tex-grain),
+                   linear-gradient(var(--tex-mug),var(--tex-mug));
+  background-size:var(--tex-form-size),var(--tex-lit-size),var(--tex-size),128px 128px,auto;
+  background-attachment:scroll;
+}
+/* 도침 — the burnished panels */
+.samhan-imprint,.top-bar,.sidebar,.right-drawer,
+.bottom-status-bar,.graph-legend,.modal,.loading-card{
+  background-image:var(--tex-grain-pn);
+  background-size:128px 128px;
+}
+/* The record area is the largest surface in the application, and it paints an
+   opaque --bg of its own over the body: the sheet stopped at its edge. On a
+   bleached ground that reads as more of the same paper, but on a dark one it
+   reads as a hole where the paper was, which is where the material went. The
+   ground is continued onto it — and onto the burnished panels, which get the
+   lit fibre without the formation, a sheet worked smoother rather than a
+   different sheet. Dark only: in light every one of these tokens is `none`,
+   so the light sheet is painted exactly as it was. */
+/* ROUND 3, revised in 3.1: the canvas keeps the paper's COLOUR and loses its
+   TEXTURE — in BOTH themes, and above as well as below. The fibre was competing
+   with the generation grid — a hairline ruled across a field of hairlines is not
+   a rule — and a historian reading a tree of 300 men should be reading the tree.
+   The ground is a body-level painting of four stacked layers, so it is not
+   enough to withhold the texture from the canvas: the content area paints an
+   opaque --graph-bg of its own and opens a stacking context, which clips every
+   one of those layers out of the canvas region from both sides. The window's
+   torn edge (.hanji-edge, z-index 9990) is the one thing that still crosses it,
+   and it is masked to the four outer bands of the window, where no canvas is.
+   Hanji stays on every piece of chrome around the drawing. */
+.content-area{
+  background-color:var(--graph-bg);
+  background-image:none;
+  isolation:isolate;
+  z-index:0;
+}
+#graph-view,#pgraph-view{background-color:var(--graph-bg);background-image:none}
+#graph-container,#pgraph-container{
+  background-color:var(--graph-bg);
+  background-image:none;
+  z-index:0;
+}
+:root:not([data-theme="light"]) .samhan-imprint,
+:root:not([data-theme="light"]) .sidebar,
+:root:not([data-theme="light"]) .right-drawer,
+:root:not([data-theme="light"]) .bottom-status-bar,
+:root:not([data-theme="light"]) .graph-legend,
+:root:not([data-theme="light"]) .modal,
+:root:not([data-theme="light"]) .loading-card{
+  background-image:var(--tex-lit),var(--tex-grain-pn);
+  background-size:var(--tex-lit-size),128px 128px;
+}
+:root:not([data-theme="light"]) .top-bar{
+  background-image:linear-gradient(rgba(192,138,94,.030),rgba(192,138,94,.030)),
+                   var(--tex-lit),var(--tex-grain-pn);
+  background-size:auto,var(--tex-lit-size),128px 128px;
+}
+/* 갈물 — Relinkings' own dyed sheet. Sebo's record is dyed indigo on the
+   index; this one is walnut, so the two works are not the same sheet. */
+.top-bar{
+  background-image:linear-gradient(rgba(192,138,94,.030),rgba(192,138,94,.030)),
+                   var(--tex-grain-pn);
+  background-size:auto,128px 128px;
+}
+[data-theme="light"] .top-bar{
+  background-image:linear-gradient(rgba(138,90,59,.026),rgba(138,90,59,.026)),
+                   var(--tex-grain-pn);
+  background-size:auto,128px 128px;
+}
+/* 발끝 — the deckle rule. The border stays, at its width, with no colour; the
+   wandering band is painted over it, so nothing moves. */
+.samhan-imprint,.top-bar{position:relative}
+.samhan-imprint,.top-bar{border-bottom-color:transparent}
+.top-bar::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;
+  pointer-events:none;background:var(--rule);z-index:1;
+  -webkit-mask:var(--drh) repeat-x 0 50%/1000px 3px;
+  mask:var(--drh) repeat-x 0 50%/1000px 3px;
+}
+/* The imprint strip is the same strip samhan.ai's sticky bar is, and the
+   flight between them has to land without a seam — so it is finished the same
+   way: its own sheet ends two pixels below the box on a torn edge, and a
+   hairline of the rule wanders along that edge at two pixels rather than
+   three. Neither its height nor its z-index moves. */
+.samhan-imprint::before{
+  content:"";position:absolute;left:0;right:0;bottom:-2px;height:8px;
+  pointer-events:none;z-index:0;
+  background-color:var(--pn);
+  background-image:var(--tex-lit),var(--tex-grain-pn);
+  background-size:var(--tex-lit-size),128px 128px;
+  -webkit-mask:var(--edge-b) repeat-x 0 0/1200px 8px;
+  mask:var(--edge-b) repeat-x 0 0/1200px 8px;
+}
+.samhan-imprint::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  pointer-events:none;z-index:1;
+  background:color-mix(in srgb,var(--rule) 72%,transparent);
+  -webkit-mask:var(--drh) repeat-x 0 50%/1000px 2px;
+  mask:var(--drh) repeat-x 0 50%/1000px 2px;
+}
+/* 배접 — the record tables are mounted in alternating sheets. background-image
+   only, so a hover or a selection colour still wins the row. */
+.data-table tbody tr:nth-child(even),
+table.data-table tbody tr:nth-child(even){
+  background-image:linear-gradient(var(--tex-zebra),var(--tex-zebra));
+}
+/* the sheet's own torn edge, at the window. Inert: no pointer events, no
+   layout, nothing to repaint. */
+.hanji-edge{position:fixed;inset:0;z-index:9990;pointer-events:none;background:var(--table);
+  -webkit-mask-image:var(--dk-t),var(--dk-b),var(--dk-l),var(--dk-r);
+  -webkit-mask-repeat:repeat-x,repeat-x,repeat-y,repeat-y;
+  -webkit-mask-position:0 0,0 100%,0 0,100% 0;
+  -webkit-mask-size:1200px 4px,1200px 7px,7px 900px,7px 900px;
+  mask-image:var(--dk-t),var(--dk-b),var(--dk-l),var(--dk-r);
+  mask-repeat:repeat-x,repeat-x,repeat-y,repeat-y;
+  mask-position:0 0,0 100%,0 0,100% 0;
+  mask-size:1200px 4px,1200px 7px,7px 900px,7px 900px;
+  -webkit-mask-composite:source-over;mask-composite:add;
+}
+@media print{ body{background-image:none}
+  .hanji-edge,.samhan-imprint::before,.samhan-imprint::after{display:none} }
+
+/* The canvas SVG is transparent by design: the drawing is inked straight onto
+   the sheet. The sheet under it is flat --graph-bg in both themes (above), and
+   the monochrome scheme takes its own ground — monochrome means monochrome. */
+#graph-container,#pgraph-container{background-color:var(--graph-bg)}
+body[data-graph-scheme="monochrome"] #graph-container,
+body[data-graph-scheme="monochrome"] #pgraph-container{
+  background-color:#000;background-image:none}
+body[data-graph-scheme="monochrome"][data-theme] #graph-container{background-image:none}
+[data-theme="light"] body[data-graph-scheme="monochrome"] #graph-container,
+html[data-theme="light"] body[data-graph-scheme="monochrome"] #graph-container,
+html[data-theme="light"] body[data-graph-scheme="monochrome"] #pgraph-container{
+  background-color:#fff;background-image:none}
+
+/* 배접 — the result tables are mounted in alternating sheets, as Sebo's are. */
+.data-table tbody tr:nth-child(even),
+.mini-table tbody tr:nth-child(even){
+  background-image:linear-gradient(var(--tex-zebra),var(--tex-zebra));
+}
+
+/* the deckle rule, extended to the rules this application draws that Sebo does
+   not: the tool sections and the sidebar's own head. Same mechanism — the
+   border keeps its width and loses its colour, and the wandering band is
+   painted over it. */
+.tool-group,.sidebar-header,.table-toolbar,.panel-header{position:relative}
+.tool-group,.sidebar-header,.table-toolbar,.panel-header{border-bottom-color:transparent}
+.tool-group::after,.sidebar-header::after,.table-toolbar::after,.panel-header::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;
+  pointer-events:none;background:var(--rule);z-index:1;
+  -webkit-mask:var(--drh) repeat-x 0 50%/1000px 3px;
+  mask:var(--drh) repeat-x 0 50%/1000px 3px;
+}
+.bottom-status-bar{position:relative;border-top-color:transparent}
+.bottom-status-bar::before{
+  content:"";position:absolute;left:0;right:0;top:-1px;height:3px;
+  pointer-events:none;background:var(--rule);z-index:1;
+  -webkit-mask:var(--drh) repeat-x 0 50%/1000px 3px;
+  mask:var(--drh) repeat-x 0 50%/1000px 3px;
+}
+
+/* One easing curve and one duration, as on samhan.ai. */
+:root{--dur:520ms;--ease:cubic-bezier(.22,.61,.36,1)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+/* Ink is evidence; the focus ring is crimson because a focused control is a
+   reading not yet made. */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--acc);outline-offset:3px}
+
+/* Underlines are rules, not text-decoration. */
+.legend-caption em,.tool-note em{
+  font-style:normal;color:var(--color-text-primary);
+  border-bottom:1px solid var(--hair)}
+
+
+/* The view count sits at the end of the status bar, after the message. The bar
+   is already tight on a phone, so below 700px the number stands down: it is
+   the least load-bearing thing in the line. */
+@media screen and (max-width: 700px) {
+  #status-views, #status-views-sep { display: none; }
+}

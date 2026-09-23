@@ -1,0 +1,73 @@
+/* samhan-graph — the rules the canvas needs around it.
+ *
+ * Scoped to the container the module is given (it adds .samhan-graph) and to
+ * the legend and tooltip hosts (which the host page marks .samhan-graph-legend
+ * / the module builds as .tooltip). Every colour is a samhan custom property
+ * with a fallback, so the sheet is the same paper as the page in both themes.
+ * No layout: where the container sits, and how big it is, is the host's call. */
+
+.samhan-graph { cursor: grab; background-color: var(--graph-bg, var(--color-bg, #23231E)); isolation: isolate; }
+.samhan-graph:active { cursor: grabbing; }
+.samhan-graph svg.samhan-graph-svg { display: block; width: 100%; height: 100%; }
+.samhan-graph .node { cursor: pointer; }
+.samhan-graph .node text { pointer-events: none; user-select: none; }
+.samhan-graph[data-graph-scheme="monochrome"] { background-image: none; }
+
+.samhan-graph .tooltip {
+  position: absolute;
+  background-color: var(--pn, #2C2C26);
+  border: 1px solid var(--hair, #54523F);
+  border-radius: 2px;
+  padding: 6px 9px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  pointer-events: none;
+  z-index: 100;
+  max-width: 260px;
+  color: var(--color-text-primary, #EDEAE0);
+}
+.samhan-graph .tooltip.hidden { display: none; }
+.samhan-graph .tooltip .tt-name { font-family: var(--fh, serif); font-size: 14px; color: var(--color-text-primary, #EDEAE0); }
+.samhan-graph .tooltip .tt-line { font-family: var(--fm, monospace); font-size: 9.6px; letter-spacing: 0.06em; color: var(--color-text-secondary, #B7B29E); }
+
+.samhan-graph-legend {
+  background-color: var(--color-surface, #2C2C26);
+  border: 1px solid var(--color-border, #3E3D34);
+  border-radius: 2px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 288px;
+  font-size: 11px;
+  color: var(--color-text-primary, #EDEAE0);
+}
+.samhan-graph-legend .legend-title {
+  font-family: var(--fm, monospace);
+  font-size: 9.2px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-faint, #999585);
+}
+.samhan-graph-legend .legend-item { display: flex; align-items: center; gap: 8px; }
+.samhan-graph-legend .legend-edge-glyph { flex-shrink: 0; width: 34px; height: 14px; overflow: visible; display: block; }
+.samhan-graph-legend .legend-label { display: flex; flex-direction: column; line-height: 1.25; }
+.samhan-graph-legend .legend-rel { font-family: var(--fm, monospace); font-size: 10px; letter-spacing: 0.05em; color: var(--color-text-primary, #EDEAE0); }
+.samhan-graph-legend .legend-rel[contenteditable] { outline: none; cursor: text; }
+.samhan-graph-legend .legend-rel[contenteditable]:focus { border-bottom: 1px solid var(--acc2, #8FB4D6); }
+.samhan-graph-legend .legend-sub { font-size: 9.5px; color: var(--color-text-secondary, #B7B29E); white-space: nowrap; }
+.samhan-graph-legend .legend-caption {
+  margin-top: 4px;
+  padding-top: 5px;
+  border-top: 1px solid var(--color-border, #3E3D34);
+  font-size: 9.8px;
+  line-height: 1.4;
+  color: var(--color-text-secondary, #B7B29E);
+}
+.samhan-graph-legend .legend-caption em { font-style: normal; color: var(--color-text-primary, #EDEAE0); }
+.samhan-graph-legend .legend-reset {
+  float: right; background: none; border: 0; padding: 0;
+  font-family: var(--fm, monospace); font-size: 8.6px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--acc, #DE8365); cursor: pointer;
+}
+.samhan-graph-legend .legend-reset:hover { color: var(--color-text-primary, #EDEAE0); }

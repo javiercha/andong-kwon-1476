@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- samhan.ai's theme, inline and first: the sheet has to be light or dark
+       before the first paint. css/samhan-skin/theme.js on disk is the canonical copy;
+       scripts/assemble.py pastes it into this block, so edit the file, not
+       this. The server admits the block to the Content-Security-Policy by its
+       hash. -->
+  <script>
+<!--@THEME@-->
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Andong Kwŏn Genealogy of 1476 安東權氏成化譜</title>
+  <meta name="description" content="The Andong Kwŏn Genealogy of 1476 (安東權氏成化譜), the oldest extant Korean genealogy, read leaf by leaf against the facsimile: 7,617 people and 8,729 recorded relations across three volumes.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- The samhan.ai stack. Every stack in css/ names system faces after these,
+       so a reader with no network still gets a correct rendering. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Public+Sans:ital,wght@0,300..600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+TC:wght@300;400;600&family=Noto+Serif+KR:wght@300;400&display=swap">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/samhan-skin/samhan.css">
+  <link rel="stylesheet" href="js/samhan-graph/samhan-graph.css">
+  <link rel="stylesheet" href="js/samhan-graph/samhan-graph-tools.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/pages.css">
+
+  <!-- The arrival half of the lemma transition from samhan.ai's index; the
+       same block Sebo and Relinkings carry. -->
+  <script>
+<!--@ARRIVAL@-->
+  </script>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Imprint. This edition is a work in samhan.ai and says so first. -->
+    <div class="samhan-imprint">
+      <a class="samhan-imprint-home" href="https://samhan.ai/?to=D1" title="samhan.ai — the index this work belongs to">
+        <svg class="mk" viewBox="0 0 64 48" width="30" height="22" aria-hidden="true"><path d="M4 36H60" stroke="currentColor" stroke-width="2.2" fill="none"/><rect x="7" y="12" width="8" height="24" fill="currentColor"/><rect x="20" y="12" width="8" height="24" fill="currentColor"/><rect x="33" y="12" width="8" height="24" fill="currentColor"/><path d="M45 36h8l4.6-15.6h-8z" fill="var(--mark-acc,var(--acc))"/></svg>
+        <span>samhan<span class="pt">.</span>ai</span>
+      </a>
+      <span class="samhan-imprint-sp"></span>
+    </div>
+
+    <!-- The lemma -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <button type="button" id="btn-toggle-tools" class="nav-toggle-btn" style="display:none"
+                title="Open the tools" aria-label="Open the tools">
+          <span class="nav-btn-icon" aria-hidden="true">☰</span><span class="nav-btn-text">Tools</span>
+        </button>
+        <div class="brand-group">
+          <h1 class="app-title">The Andong Kwŏn Genealogy of 1476 <span class="app-title-hj">安東權氏成化譜</span><span class="rl-stage" data-s="BETA">BETA</span></h1>
+          <span class="rl-ap">
+            <span class="rl-ap-n">V0.9</span>
+            <span><span class="rl-ap-n" id="ap-vols">3</span> VOLUMES</span>
+            <span><span class="rl-ap-n" id="ap-pages">363</span> LEAVES</span>
+            <span class="rl-ap-status" data-state="loading" hidden>LOADING</span>
+          </span>
+        </div>
+      </div>
+      <div class="top-bar-right">
+        <button id="btn-theme-toggle" class="topbar-action is-icon-only" title="Theme" aria-label="Theme">
+          <span id="theme-icon" class="btn-icon" aria-hidden="true">🌗</span>
+        </button>
+      </div>
+      <div class="top-bar-center">
+        <div class="view-toggles" role="tablist" aria-label="Views">
+          <button id="btn-inspection-view" class="btn-toggle active" role="tab" aria-selected="true" title="A leaf of the print beside the men it records (1)">Inspection</button>
+          <button id="btn-graph-view" class="btn-toggle" role="tab" aria-selected="false" title="Draw a man and his kin across the whole genealogy (2)">Graph</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-layout">
+
+      <!-- ── the tools (Graph only) ─────────────────────────────────── -->
+      <aside class="sidebar collapsed" id="sidebar">
+        <div class="sidebar-header">
+          <h2>Tools</h2>
+          <button type="button" id="btn-reset" class="reset-btn" title="Clear the canvas">Reset</button>
+          <button id="btn-toggle-sidebar" class="icon-btn" title="Close the tools">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <div class="sidebar-content">
+          <div id="graph-sidebar-controls"></div>
+        </div>
+      </aside>
+
+      <main class="content-area">
+
+        <!-- ══ Inspection ═══════════════════════════════════════════════ -->
+        <div id="inspection-view" class="view-container active" role="tabpanel">
+          <div class="insp-toolbar">
+            <div class="fo-nav">
+              <button type="button" id="fo-prev" class="fo-btn" title="Previous leaf (←)" aria-label="Previous leaf">‹</button>
+              <label class="fo-field"><span>vol.</span><select id="fo-vol" class="dropdown-input" aria-label="Volume"></select></label>
+              <label class="fo-field"><span>leaf</span><input type="number" id="fo-leaf" class="number-input" min="1" max="71" value="1" aria-label="Leaf"></label>
+              <div class="fo-side" role="group" aria-label="Side">
+                <button type="button" id="fo-side-a" class="fo-btn on" title="recto 앞면">a</button>
+                <button type="button" id="fo-side-b" class="fo-btn" title="verso 뒷면">b</button>
+              </div>
+              <button type="button" id="fo-next" class="fo-btn" title="Next leaf (→)" aria-label="Next leaf">›</button>
+              <span id="fo-pos" class="fo-pos mono">—</span>
+            </div>
+            <span class="spacer"></span>
+            <div class="fo-search-wrap autocomplete-wrapper">
+              <input type="text" id="fo-search" class="text-input" placeholder="find a person → his leaf" autocomplete="off" spellcheck="false" aria-label="Find a person">
+              <div id="fo-drop" class="autocomplete-dropdown hidden"></div>
+            </div>
+            <button type="button" id="fo-open-graph" class="fo-btn" title="Draw this leaf on the big canvas">Open in Graph</button>
+            <button type="button" id="fo-link" class="fo-btn" title="Copy a citation and the link to this leaf">Cite</button>
+            <button type="button" id="fo-export" class="fo-btn" title="Download this leaf's people and relations as TSV">TSV</button>
+            <button type="button" id="fo-report" class="fo-btn" title="Report an error on this leaf to the editor">Report</button>
+          </div>
+
+          <div class="insp-split" id="insp-split">
+            <section class="fac-pane" id="fac-pane" aria-label="The facsimile">
+              <div class="fac-stage" id="fac-stage">
+                <img id="fac-img" class="loading" alt="" draggable="false">
+              </div>
+              <div class="canvas-floating-toolbar fac-tools">
+                <button type="button" id="fac-fit" class="canvas-float-btn" title="Fit the leaf (double-click)">⛶</button>
+                <button type="button" id="fac-zoom-in" class="canvas-float-btn" title="Zoom in">＋</button>
+                <button type="button" id="fac-zoom-out" class="canvas-float-btn" title="Zoom out">－</button>
+                <button type="button" id="fac-one" class="canvas-float-btn" title="Actual pixels of the derivative">1:1</button>
+              </div>
+              <div class="fac-cite mono" id="fac-cite"></div>
+              <div class="fac-strip" id="fac-strip" aria-label="Leaves of this volume"></div>
+            </section>
+
+            <div class="insp-gutter" id="insp-gutter" role="separator" aria-orientation="vertical" aria-label="Resize the facsimile pane" title="Drag, or focus and use the arrow keys"></div>
+
+            <section class="insp-right" aria-label="The men on this leaf">
+              <div class="page-canvas-wrap" id="page-wrap" data-view="notebook">
+                <div class="pane-switch" role="tablist" aria-label="What to compare the leaf against">
+                  <button type="button" class="on" data-view="notebook" role="tab" title="The notebook's graphviz drawing of June 2025 — the reference the tables were checked against">Notebook render</button>
+                  <button type="button" data-view="drawing" role="tab" title="The same leaf drawn live from the tables on the shared canvas">Live drawing</button>
+                </div>
+                <div class="nb-stage" id="nb-stage"><img id="nb-img" class="loading" alt="" draggable="false"></div>
+                <div id="page-graph"></div>
+                <div class="canvas-empty" id="page-empty" style="display:none">No relationships are cited on this leaf.</div>
+                <div class="canvas-floating-toolbar">
+                  <button type="button" id="pg-redraw" class="canvas-float-btn" title="Redraw">↻</button>
+                  <button type="button" id="pg-fit" class="canvas-float-btn" title="Fit (f)">⛶</button>
+                  <button type="button" id="pg-zoom-in" class="canvas-float-btn" title="Zoom in">＋</button>
+                  <button type="button" id="pg-zoom-out" class="canvas-float-btn" title="Zoom out">－</button>
+                  <button type="button" id="pg-svg" class="canvas-float-btn" title="Export this drawing as SVG">↓</button>
+                </div>
+                <div id="page-legend" class="graph-legend samhan-graph-legend"></div>
+              </div>
+              <div class="insp-lists">
+                <div class="tabs insp-tabs" role="tablist" aria-label="Rows">
+                  <button type="button" class="tab on" data-list="people" role="tab">People <span class="n" id="cnt-people">0</span></button>
+                  <button type="button" class="tab" data-list="relations" role="tab">Relations <span class="n" id="cnt-relations">0</span></button>
+                  <button type="button" class="tab" data-list="notes" role="tab">Notes <span class="n" id="cnt-notes">0</span></button>
+                  <span class="tab-spacer"></span>
+                </div>
+                <div class="list-scroll">
+                  <div id="list-people" class="ent-list"></div>
+                  <div id="list-relations" class="ent-list hidden"></div>
+                  <div id="list-notes" class="ent-list hidden"></div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- ══ Graph ════════════════════════════════════════════════════ -->
+        <div id="graph-view" class="view-container" role="tabpanel">
+          <div id="graph-container"></div>
+          <div class="canvas-breadcrumb empty" id="canvas-breadcrumb"></div>
+          <div class="canvas-empty" id="canvas-empty" style="display:none">Nothing drawn yet. Name a person in the tools at the left, or press &ldquo;Open in Graph&rdquo; on a leaf.</div>
+          <div class="canvas-floating-toolbar">
+            <button type="button" id="btn-float-redraw" class="canvas-float-btn" title="Redraw and re-centre">↻</button>
+            <button type="button" id="btn-float-fit" class="canvas-float-btn" title="Fit to the screen (f)">⛶</button>
+            <button type="button" id="btn-float-zoom-in" class="canvas-float-btn" title="Zoom in">＋</button>
+            <button type="button" id="btn-float-zoom-out" class="canvas-float-btn" title="Zoom out">－</button>
+            <button type="button" id="btn-float-clear" class="canvas-float-btn" title="Clear the canvas">×</button>
+          </div>
+          <div id="graph-legend" class="graph-legend samhan-graph-legend"></div>
+        </div>
+
+      </main>
+
+      <!-- ── the record ────────────────────────────────────────────────── -->
+      <aside class="right-drawer collapsed" id="detail-panel" aria-label="The record">
+        <div class="panel-header">
+          <h3>The record</h3>
+          <button type="button" id="btn-toggle-detail" class="icon-btn" title="Close (Esc)" aria-label="Close the record">✕</button>
+        </div>
+        <div class="panel-content" id="detail-content">
+          <div class="detail-empty">Click a figure on the leaf or the canvas to read his record.</div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="bottom-status-bar">
+      <span>NODES <strong id="status-nodes">0</strong></span>
+      <span class="status-sep">·</span>
+      <span>EDGES <strong id="status-edges">0</strong></span>
+      <span class="status-sep">·</span>
+      <span id="status-sel">no selection</span>
+      <span class="spacer"></span>
+      <span class="status-pages"><a href="people.html">PEOPLE</a> <a href="lineages.html">LINEAGES</a> <a href="data.html" title="The tables, the derived data, and how to cite">DATA</a></span>
+      <span class="status-sep">·</span>
+      <span id="status-message">Starting…</span>
+      <span class="status-sep" id="status-views-sep" hidden>·</span>
+      <span id="status-views" hidden>VIEWS <strong id="status-views-n">0</strong></span>
+    </footer>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Loading -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-card">
+      <div class="loading-title">Andong Kwŏn 1476 <span class="hj">安東權氏成化譜</span></div>
+      <div class="loading-text" id="loading-text">Starting</div>
+      <div class="loading-progress-track"><div class="loading-progress-bar" id="loading-progress-bar"></div></div>
+      <div class="loading-sub" id="loading-sub">the tables of 2025-07-07</div>
+    </div>
+  </div>
+
+  <!-- Report an error — the visitor's form; reports.py stores it -->
+  <div class="modal-backdrop hidden" id="report-modal">
+    <div class="modal report" role="dialog" aria-modal="true" aria-label="Report an error">
+      <div class="modal-header">
+        <h3>Report an error</h3>
+        <button type="button" class="icon-btn" id="report-close" title="Close (Esc)" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="lede">Where the table disagrees with the print. The leaf and the link come from the page; say what the print says and what the table says, in any language. The report goes to the editor and to no one else; nothing here changes the tables.</p>
+        <form id="report-form" autocomplete="off">
+          <div class="rp-row"><label>leaf</label><span class="mono" id="rp-leaf">—</span></div>
+          <div class="rp-row"><label>person</label><span class="hanja" id="rp-person">—</span></div>
+          <div class="rp-row"><label for="rp-print">the print says</label><textarea id="rp-print" rows="3" maxlength="2000" placeholder="what you read on the leaf"></textarea></div>
+          <div class="rp-row"><label for="rp-table">the table says</label><textarea id="rp-table" rows="2" maxlength="2000" placeholder="what the edition shows instead"></textarea></div>
+          <div class="rp-row"><label for="rp-note">note</label><textarea id="rp-note" rows="3" maxlength="4000" placeholder="anything else — a reading, a reference, a doubt"></textarea></div>
+          <div class="rp-row"><label for="rp-contact">contact <small>optional</small></label><input id="rp-contact" type="text" maxlength="200" placeholder="a name or an address, if you want an answer"></div>
+          <div class="rp-hp"><label for="rp-website">website</label><input id="rp-website" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="rp-actions"><span id="rp-status" class="mono"></span><span class="spacer"></span><button type="button" class="btn btn-sm" id="rp-cancel">Cancel</button><button type="submit" class="btn btn-sm btn-primary" id="rp-send">Send to the editor</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/d3.v7.min.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/samhan-graph/samhan-graph.js"></script>
+  <script src="js/samhan-graph/samhan-graph-export.js"></script>
+  <script src="js/samhan-graph/samhan-graph-tools.js"></script>
+  <script src="js/samhan-graph/adapters/engine-provider.js"></script>
+  <script src="js/detail.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/inspection.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- 배접 · the sheet's own torn edge, and 생지 · a fresh fibre mat per
+       view, as on samhan.ai, Sebo and Relinkings. -->
+  <div class="hanji-edge" aria-hidden="true"></div>
+  <script>
+<!--@HANJI@-->
+  </script>
+</body>
+</html>
